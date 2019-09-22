@@ -56,6 +56,7 @@ def process_comments(comments, index, lists):
     # Adds to the actual list.
     process_string(comments[index].body, lists)
 
+
     process_comments(comments[index].replies, 0, lists)
     process_comments(comments, index + 1, lists)
 
