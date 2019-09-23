@@ -1,6 +1,7 @@
 class Node(object):
     item = -1
     next = None
+    index = None
 
     def __init__(self, next, item):
         self.next = next
@@ -28,10 +29,21 @@ class LinkedList(object):
         self.size += 1
 
     def insert(self, item):
-        node = Node(item)
-        node.set_next(self.head)
-        self.head = node
-        self.size += 1
+        if self.head.get_data() is None:
+            self.head.set_data(item)
+        else:
+            node = Node(None, item)
+            node.set_next(self.head)
+            self.head = node
+            self.size += 1
 
     def get_size(self):
         return self.size
+
+    def set_head(self, data):
+        self.head.set_data(data)
+
+    def get_head(self):
+        return self.head
+
+
