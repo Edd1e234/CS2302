@@ -30,7 +30,7 @@ class LinkedList(object):
 
     def insert(self, item):
         if self.head.get_data() is None:
-            self.head.set_data(item)
+            self.head = Node(None, item)
         else:
             node = Node(None, item)
             node.set_next(self.head)

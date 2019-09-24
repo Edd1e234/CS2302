@@ -39,15 +39,15 @@ def swap_node(first_node, second_node):
     if not isinstance(first_node, Node) and isinstance(second_node, Node):
         print("Bad inputs")
         return
-    if second_node.get_next is None:
-        first_node.set_next(None)
-    else:
-        first_node.set_next(second_node.get_next())
 
-    second_node.set_next(first_node)
+    # Swaps Data.
+    temp_data = first_node.get_data()
+    first_node.set_data(second_node.get_data())
+    second_node.set_data(temp_data)
 
 
 def print_list(employee_list):
+    print("Printing List \n\n")
     if not isinstance(employee_list, LinkedList):
         return
 
@@ -55,6 +55,17 @@ def print_list(employee_list):
     for i in range(employee_list.get_size()):
         print(node.get_data())
         node = node.get_next()
+    print("\n\n")
+
+
+def print_standard_list(list_):
+    print("Printing Standard List \n\n")
+    if not isinstance(list_, list):
+        return
+
+    for i in list_:
+        print(i)
+    print("\n\n")
 
 
 def solution_1(employee_list):
@@ -95,49 +106,89 @@ def solution_1(employee_list):
     return duplicate_ids
 
 
-def solution_2(employee_list):
+def bubble_sort(employee_list):
     amount_of_swaps = 1
-
     while amount_of_swaps is not 0:
+        amount_of_swaps = 0
         temp_node = employee_list.get_head()
-        for i in range(employee_list.get_size()):
+        # print("Does this run")
+        for i in range(employee_list.get_size() - 1):
             if temp_node.get_next() is None:
                 break
 
             if temp_node.get_data() > temp_node.get_next().get_data():
+                # print("First Node ", temp_node.get_data())
+                # print("Second Node ", temp_node.get_next().get_data(), "\n\n")
                 swap_node(temp_node, temp_node.get_next())
+                # print("After Swap")
+                # print_list(employee_list)
+                # print("Temp is ", temp_node.get_data())
+                # print("And points to ", temp_node.get_next().get_data())
+                amount_of_swaps += 1
 
-    print("Solution 2")
+                # print("The head is this", employee_list.get_head().get_data())
+
+            # print("End of inner loop")
+            temp_node = temp_node.get_next()
+        # print("One iteration done")
+
+    print("Bubble Sort complete")
+
+
+# TODO(Edd1e234): Comment all of this.
+def solution_2(employee_list):
+    print("Solution 2 Running")
+    if not isinstance(employee_list, LinkedList):
+        return None
+    temp_node = employee_list.get_head()
+    duplicate_list = []
+
+    counter = 0
+    while temp_node is not None:
+        counter += 1
+        if temp_node.get_next() is None:
+            return duplicate_list
+
+        if temp_node.get_next().get_data() == temp_node.get_data():
+            print("Got here")
+            duplicate_list.append(temp_node.get_data())
+            temp_node = temp_node.get_next()
+        temp_node = temp_node.get_next()
+
+    return duplicate_list
+
+
+def merge_sort(employee_list, left_list, middle_list):
+    print("Merge Sort")
 
 
 def main():
     print("Hello World")
-    employee_list = LinkedList(Node(None, None))
-
-    print(employee_list.get_size())
-
-    read_file("test_file_1.txt", employee_list)
-
-    print("Full list size is ", employee_list.get_size())
-
-    duplicate_ids = solution_1(employee_list)
-    size_of_duplicate_ids = len(duplicate_ids)
-    print("Size of duplicate ID list is: ", size_of_duplicate_ids)
-
-    print_list(employee_list)
 
     bubble_list = LinkedList(Node(None, None))
+    employee_list_test_1 = LinkedList(Node(None, None))
+    employee_list_test_2 = LinkedList(Node(None, None))
 
     read_file("bubble_sort_test_file_2.txt", bubble_list)
-    print("Bubble List:")
-    print_list(bubble_list)
-    print("End of first bubble list")
+    read_file("test_file_1.txt", employee_list_test_1)
+    read_file("test_file_1.txt", employee_list_test_2)
 
-    solution_2(bubble_list)
+    bubble_sort(employee_list_test_1)
+    print_list(employee_list_test_1)
 
-    print("Bubble List:")
-    print_list(bubble_list)
-    print("End of second bubble list")
+    print("employee list test 1")
+    duplicate_ids = solution_1(employee_list_test_1)
+    print_list(employee_list_test_1)
+    print_standard_list(duplicate_ids)
+    print("Size of duplicate ID list is: ", len(duplicate_ids))
+
+    print("employee list test 2")
+    bubble_sort(employee_list_test_2)
+
+    print_list(employee_list_test_2)
+    duplicate_ids_2 = solution_2(employee_list_test_2)
+    print_standard_list(duplicate_ids_2)
+    print("Size of duplicate ID list is ", len(duplicate_ids_2))
 
 
 main()
