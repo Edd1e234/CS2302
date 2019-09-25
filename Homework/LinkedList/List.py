@@ -20,7 +20,6 @@ class Node(object):
         return self.next
 
 
-
 class SinglyLinkedList(object):
     head = None
     size = 0
@@ -31,6 +30,7 @@ class SinglyLinkedList(object):
 
         if head is None:
             self.size = 0
+
     def get_size(self):
         return self.size
 
@@ -47,7 +47,7 @@ class SinglyLinkedList(object):
             return
         temp_node = self.head
 
-        for i in range(index-1):
+        for i in range(index - 1):
             if temp_node is None:
                 temp_node = Node(None, item)
                 return
@@ -56,8 +56,6 @@ class SinglyLinkedList(object):
         temp_node.set_next(new_node)
 
         self.size += 1
-
-
 
 
 def main():
