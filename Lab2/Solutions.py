@@ -128,26 +128,15 @@ def bubble_sort(employee_list):
     while amount_of_swaps is not 0:
         amount_of_swaps = 0
         temp_node = employee_list.get_head()
-        # print("Does this run")
         for i in range(employee_list.get_size() - 1):
             if temp_node.get_next() is None:
                 break
 
             if temp_node.get_data() > temp_node.get_next().get_data():
-                # print("First Node ", temp_node.get_data())
-                # print("Second Node ", temp_node.get_next().get_data(), "\n\n")
                 swap_node(temp_node, temp_node.get_next())
-                # print("After Swap")
-                # print_list(employee_list)
-                # print("Temp is ", temp_node.get_data())
-                # print("And points to ", temp_node.get_next().get_data())
                 amount_of_swaps += 1
 
-                # print("The head is this", employee_list.get_head().get_data())
-
-            # print("End of inner loop")
             temp_node = temp_node.get_next()
-        # print("One iteration done")
 
     print("Bubble Sort complete")
 
@@ -161,13 +150,10 @@ def solution_2(employee_list):
 
     counter = 0
     while temp_node is not None:
-        # print("Inside Loop")
         counter += 1
         if temp_node.get_next() is None:
             return duplicate_list
-        # print("First one", temp_node.get_data(), "Second one ", temp_node.get_next().get_data())
         if temp_node.get_next().get_data() == temp_node.get_data():
-            # print("Inside if statement")
             duplicate_list.append(temp_node.get_data())
             temp_node = temp_node.get_next()
         temp_node = temp_node.get_next()
@@ -177,11 +163,7 @@ def solution_2(employee_list):
 
 def merge_sort(employee_list):
     if employee_list.get_size() is 1:
-        # print("DONE HERE")
-        # print(employee_list.get_head().get_data())
         return
-    # print("Starting the merge sort, list seperating is, the size is  ", employee_list.get_size())
-    # print_list(employee_list)
 
     # Nodes that will transverse through tree.
     middle_node = employee_list.get_head()
@@ -190,12 +172,10 @@ def merge_sort(employee_list):
 
     # Finds the middle list.
     if employee_list.get_size() is 2:
-        # print("List Only contains two items")
         size = 1
     else:
         while temp_node.get_next() is not None:
             if None is not temp_node.get_next().get_next():
-                # print("Went here")
                 size += 1
                 middle_node = middle_node.get_next()
                 temp_node = temp_node.get_next().get_next()
@@ -210,20 +190,12 @@ def merge_sort(employee_list):
     new_middle_list = LinkedList(middle_node.get_next())
     middle_node.set_next(None)
 
-    # print_list(employee_list)
     new_middle_list.set_size(employee_list.get_size() - size)
 
     merge_sort(new_left_list)
     merge_sort(new_middle_list)
-    # print("DONE WITH SEPERATING---------------------------")
-    # print("Left list")
-    # print_list(new_left_list)
-
-    # print("Right List4")
-    # print_list(new_middle_list)
 
     merge(employee_list, new_left_list, new_middle_list)
-    # print_list(employee_list)
 
 
 def merge(employee_list, new_left_list, new_middle_list):
