@@ -54,8 +54,12 @@ def swap_node(first_node, second_node):
 
 
 def print_list(employee_list):
-    print("Printing List")
+    """
+    Prints all data in 'employee_list', starts at the head.
 
+    :param employee_list: Only takes in custom LinkedList found in 'List.py'
+    """
+    print("Printing List")
     if not isinstance(employee_list, LinkedList):
         return
     if employee_list.get_head() is not None:
@@ -73,6 +77,10 @@ def print_list(employee_list):
 
 
 def print_standard_list(list_):
+    """
+    Prints standard python list data type.
+    :param list_: Works for any type of list.
+    """
     print("Printing Standard List \n")
     if not isinstance(list_, list):
         return
@@ -124,6 +132,12 @@ def solution_1(employee_list):
 
 
 def bubble_sort(employee_list):
+    """
+    My custom bubble sort implementation, takes LinkedList from 'List.py' and sorts it using bubble sort.
+
+    :param employee_list:
+    :return:
+    """
     amount_of_swaps = 1
     while amount_of_swaps is not 0:
         amount_of_swaps = 0
