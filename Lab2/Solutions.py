@@ -1,5 +1,6 @@
 import sys
 
+from timeit import default_timer as timer
 from Lab2.List import LinkedList
 from Lab2.List import Node
 
@@ -343,22 +344,36 @@ def main():
 
 
     print("solution 1 duplicates are")
+
+    solution_1_time_start = timer()
     duplicate_list_1 = solution_1(final_list_1)
+    solution_1_time_end = timer()
     print_standard_list(duplicate_list_1)
 
     print("Solution 2 duplicates are")
+    bubble_time_start = timer()
     bubble_sort(final_list_2)
     duplicate_list_2 = solution_2(final_list_2)
+    bubble_time_end = timer()
     print_standard_list(duplicate_list_2)
 
     print("Solution 3 duplicates are ")
+    merge_sort_time_start = timer()
     merge_sort(final_list_3)
     duplicate_list_3 = solution_2(final_list_3)
+    merge_sort_time_end = timer()
     print_standard_list(duplicate_list_3)
 
     print("Solution 4 duplicates are ")
+    solution_4_time_start = timer()
     duplicate_list_4 = solution_4(final_list_4)
+    solution_4_time_end = timer()
     print_standard_list(duplicate_list_4)
+
+    print("Solution 1 ", solution_1_time_end - solution_1_time_start)
+    print("Solution 2 ", bubble_time_end - bubble_time_start)
+    print("Solution 3 ", merge_sort_time_end - merge_sort_time_start)
+    print("Solution 4 ", solution_4_time_end - solution_4_time_start)
 
 
 

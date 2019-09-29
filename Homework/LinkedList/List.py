@@ -117,9 +117,6 @@ class SinglyLinkedList(object):
             print(temp_node.get_data())
             temp_node = temp_node.get_next()
 
-    def reverse_list(self):
-        
-
 
 def main():
     list = SinglyLinkedList()
