@@ -370,14 +370,14 @@ def main():
     solution_4_time_end = timer()
     print_standard_list(duplicate_list_4)
 
+
     print("Solution 1 ", solution_1_time_end - solution_1_time_start)
     print("Solution 2 ", bubble_time_end - bubble_time_start)
     print("Solution 3 ", merge_sort_time_end - merge_sort_time_start)
     print("Solution 4 ", solution_4_time_end - solution_4_time_start)
 
-
-
-
+    print("Solution 3", len(duplicate_list_3))
+    print("Solution 4", len(duplicate_list_4))
 
 
 main()

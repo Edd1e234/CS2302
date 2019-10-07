@@ -12,7 +12,7 @@ class Section3:
     @staticmethod
     def get_problem_7_answer():
         # Replace the values of a, b, and k with your answer
-        a = 6
+        a = 12
         b = 2
         k = 0
 
