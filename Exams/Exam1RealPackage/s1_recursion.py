@@ -29,10 +29,10 @@ class Section1:
 
 def main():
     counter = 0
+    print("Hello")
 
-    for i in range(1):
+    for i in range(2, 5):
         print(i)
-        counter += 1
 
     test_result = Section1.count_even(1273)
 

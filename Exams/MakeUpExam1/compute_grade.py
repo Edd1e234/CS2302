@@ -6,6 +6,7 @@ from s4_activation_records import Section4
 from s5_lists_1 import Section5
 from s6_lists_2 import Node, SinglyLinkedList
 
+
 P1_POINTS = 10.0
 P2_12_POINTS = 4.0
 P13_18_POINTS = 5.0
@@ -61,30 +62,6 @@ def grade_s2(answer_list_points):
 
     points = 0
 
-    # Problem 2
-    ans = (Section2.get_problem_2_answer() == 0) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 2]", ans, "/", P2_12_POINTS)
-
-    # Problem 3
-    ans = (Section2.get_problem_3_answer() == 1) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 3]", ans, "/", P2_12_POINTS)
-
-    # Problem 4
-    ans = (Section2.get_problem_4_answer() == 3) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 4]", ans, "/", P2_12_POINTS)
-
-    # Problem 5
-    ans = (Section2.get_problem_5_answer() == 3) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 5]", ans, "/", P2_12_POINTS)
-
     return points
 
 
@@ -92,51 +69,6 @@ def grade_s3(answer_list_points):
     print("\n-- Section 3 --")
 
     points = 0
-
-    # Problem 6
-    a, b, k = Section3.get_problem_6_answer()
-    ans = (((a == 2) + (b == 4) + (k == 1)) / 3.0) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 6]", ans, "/", P2_12_POINTS)
-
-    # Problem 7
-    a, b, k = Section3.get_problem_7_answer()
-    ans = (((a == 8) + (b == 2) + (k == 0)) / 3.0) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 7]", ans, "/", P2_12_POINTS)
-
-    # Problem 8
-    a, b, k = Section3.get_problem_8_answer()
-    ans = (((a == 1) + (b == 3) + (k == 3)) / 3.0) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 8]", ans, "/", P2_12_POINTS)
-
-    # Problem 9
-    ans = (Section3.get_problem_9_answer() == 3) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 9]", ans, "/", P2_12_POINTS)
-
-    # Problem 10
-    ans = (Section3.get_problem_10_answer() == 1) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 10]", ans, "/", P2_12_POINTS)
-
-    # Problem 11
-    ans = (Section3.get_problem_11_answer() == 1) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 11]", ans, "/", P2_12_POINTS)
-
-    # Problem 12
-    ans = (Section3.get_problem_12_answer() == 40) * P2_12_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 12]", ans, "/", P2_12_POINTS)
 
     return points
 
@@ -146,25 +78,6 @@ def grade_s4(answer_list_points):
 
     points = 0
 
-    # Problem 13
-    ans = (Section4.get_problem_13_answer() == 5) * P13_18_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 13]", ans, "/", P13_18_POINTS)
-
-    # Problem 14
-    n, x, y = Section4.get_problem_14_answer()
-    ans = (((n == 1) + (x == 2) + (y == 1)) / 3.0) * P13_18_POINTS
-    answer_list_points.append(ans)
-    points += ans
-
-    print("[Problem 14]", ans, "/", P13_18_POINTS)
-
-    # Problem 15
-    ans = (Section4.get_problem_15_answer() == 2) * P13_18_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 15]", ans, "/", P13_18_POINTS)
     return points
 
 
@@ -172,24 +85,6 @@ def grade_s5(answer_list_points):
     print("\n-- Section 5 --")
 
     points = 0
-
-    # Problem 16
-    ans = (Section5.get_problem_16_answer() == 2) * P13_18_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 16]", ans, "/", P13_18_POINTS)
-
-    # Problem 17
-    ans = (Section5.get_problem_17_answer() == 1) * P13_18_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 17]", ans, "/", P13_18_POINTS)
-
-    # Problem 18
-    ans = (Section5.get_problem_18_answer() == 8) * P13_18_POINTS
-    answer_list_points.append(ans)
-    points += ans
-    print("[Problem 18]", ans, "/", P13_18_POINTS)
 
     return points
 
@@ -372,11 +267,8 @@ def main():
     print("Section 6 Grade: ", s6_points)
     print("-----------------------")
     print()
-    print("Exam 1 Grade: ", total_points)
-
-
+    print("Make Up Exam 1 Grade: ", total_points)
 
 
 if __name__ == "__main__":
-
     main()
