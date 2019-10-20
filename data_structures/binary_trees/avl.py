@@ -1,6 +1,8 @@
 from data_structures.binary_trees.BinarySearchTree import BST
 from data_structures.binary_trees.BinarySearchTree import BSTNode
 
+
+# Functions: print2D and print2DUtil were 
 COUNT = [10]
 
 
@@ -108,19 +110,15 @@ class AVLTree(BST):
     """
     tree_height = 0
 
-    def __init__(self, root=None):
-        if root is None:
-            self.tree_height = 0
-        else:
-            self.tree_height = root.get_height()
-
-        self.root = root
+    def set_tree_height(self):
+        self.tree_height = self.root.get_height()
 
     def insert(self, data):
         if self.root is None:
             self.root = AVLNode(data)
         else:
             self._insert(data, self.root)
+        self.set_tree_height()
 
     def _insert(self, data, cur_node):
         if cur_node.data > data:
@@ -150,7 +148,7 @@ class AVLTree(BST):
 
         if abs(left_height - right_height) > 1:
             path.insert(0, cur_node.parent)
-            self.rebalance_node(path[0], path[1], path[2])
+            self.rebalance(path[0], path[1], path[2])
             return
 
         new_height = 1 + cur_node.height
@@ -159,7 +157,7 @@ class AVLTree(BST):
 
         self.inspect_insertion(cur_node.parent, path)
 
-    def rebalance_node(self, z, y, x):
+    def rebalance(self, z, y, x):
         """
         This function will determine which rotation will take place. Check your notes for more info on the different
         cases.
@@ -228,16 +226,3 @@ class AVLTree(BST):
         print2D(self.root)
         self.root.get_height()
         print("Tree height is", self.root.height)
-
-    def is_balanced(self):
-        sum_of_heights = self.get_height_actual(self.root.left) - \
-                         self.get_height_actual(self.root.right)
-
-        print("Left side is ", self.get_height_actual(self.root.left))
-        print("Right side is ", self.get_height_actual(self.root.right))
-
-        print("Sum is ", sum_of_heights)
-        if sum_of_heights is -1 or sum_of_heights is 0 or sum_of_heights is 1:
-            return True
-        else:
-            print("Tree is now balancing.")
