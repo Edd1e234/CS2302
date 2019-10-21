@@ -11,16 +11,21 @@ def main():
     avl = AVLTree(avl_root)
 
     # What the list contains
-    list_nodes = [28, 37, 41, 96, 15, 88, 32, 50]
-
+    list_nodes = [28, 37]
+    count = 0
     for i in list_nodes:
         avl.insert(i)
+        count += 1
+        print(count)
+
+        if count == 15:
+            break
     avl.print_full_tree()
     avl.print_bst()
 
-    print(avl.root.data)
-    print(avl.root.right.data)
-
+    print(avl.root.key)
+    print(avl.root.right.key)
+    print(avl.get_node_total())
 
 
 

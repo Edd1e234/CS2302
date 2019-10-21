@@ -1,8 +1,7 @@
 from data_structures.binary_trees.BinarySearchTree import BST
 from data_structures.binary_trees.BinarySearchTree import BSTNode
 
-
-# Functions: print2D and print2DUtil were 
+# Functions: print2D and print2DUtil were
 COUNT = [10]
 
 
@@ -24,7 +23,7 @@ def print2DUtil(root, space):
     print()
     for i in range(COUNT[0], space):
         print(end=" ")
-    print(root.data)
+    print(root.key)
 
     # Process left child
     print2DUtil(root.left, space)
@@ -38,46 +37,21 @@ def print2D(root):
 
 
 class AVLNode(BSTNode):
+    data = None
     height = 0
     parent = None
 
-    def __init__(self, data=None, left=None, right=None, parent=None):
+    def __init__(self, key=None, data=None,
+                 left=None, right=None, parent=None):
+        self.key = key
         self.data = data
         self.parent = parent
         self.left = left
         self.right = right
-        if data is not None:
+        if key is not None:
             self.height = 1
         else:
             self.height = 0
-
-    def insert(self, data):
-        """
-        If 'data' is less than 'self.data' than it will be set to the left, else it will be set to the right. This will
-        will be recursively called, until empty node is found.
-        :param data: Should be data type int.
-        """
-        if not isinstance(data, int):
-            return
-        if data is None:
-            return
-
-        if self.data is None:
-            self.data = data
-            return
-
-        if self.data >= data:
-            if self.left is None:
-                self.left = BSTNode(data)
-                self.left.parent = self
-                return self.left
-            return self.left.insert(data)
-        else:
-            if self.right is None:
-                self.right = BSTNode(data)
-                self.left.parent = self
-                return self.right
-            return self.right.insert(data)
 
     def get_height(self):
         return self.get_height_actual(self)
@@ -104,6 +78,13 @@ def get_height(node):
         return node.get_height()
 
 
+def get_height_set(node):
+    if node is None:
+        return 0
+    else:
+        return node.height
+
+
 class AVLTree(BST):
     """
     Extends Binary Search Tree. Will use many of the same properties.
@@ -113,28 +94,47 @@ class AVLTree(BST):
     def set_tree_height(self):
         self.tree_height = self.root.get_height()
 
-    def insert(self, data):
+    def get_node(self, key):
+        cur_node = self.root
+
+        while cur_node is not None:
+            if cur_node.key == key:
+                return cur_node
+            elif cur_node.key > key:
+                cur_node = cur_node.left
+                continue
+            elif cur_node.key < key:
+                cur_node = cur_node.right
+                continue
+            else:
+                print("Key NOT FOUND")
+                return None
+
+    def insert(self, key, data=None):
+        print(key)
         if self.root is None:
-            self.root = AVLNode(data)
+            self.root = AVLNode(key, data)
         else:
-            self._insert(data, self.root)
+            self._insert(key, self.root, data)
         self.set_tree_height()
 
-    def _insert(self, data, cur_node):
-        if cur_node.data > data:
+    def _insert(self, key, cur_node, data=None):
+        if cur_node.key > key:
             if cur_node.left is None:
-                cur_node.left = AVLNode(data)
+                cur_node.left = AVLNode(key, data)
                 cur_node.left.parent = cur_node
-                self.inspect_insertion(cur_node.left, [])
+                if self.is_balanced():
+                    self.inspect_insertion(cur_node.left, [])
             else:
-                self._insert(data, cur_node.left)
-        elif cur_node.data < data:
+                self._insert(key, cur_node.left, data)
+        elif cur_node.key < key:
             if cur_node.right is None:
-                cur_node.right = AVLNode(data)
+                cur_node.right = AVLNode(key, data)
                 cur_node.right.parent = cur_node
-                self.inspect_insertion(cur_node.right, [])
+                if self.is_balanced():
+                    self.inspect_insertion(cur_node.right, [])
             else:
-                self._insert(data, cur_node.right)
+                self._insert(key, cur_node.right, data)
         else:
             print("Value already in tree.")
         self.tree_height = get_height(self.root)
@@ -156,6 +156,15 @@ class AVLTree(BST):
             cur_node.parent.height = new_height
 
         self.inspect_insertion(cur_node.parent, path)
+
+    def is_balanced(self):
+        if self.root is None:
+            print("Tree is empty")
+            return True
+        if abs(get_height_set(self.root.left) - get_height_set(self.root.right)) > 1:
+            return True
+        else:
+            return False
 
     def rebalance(self, z, y, x):
         """
@@ -179,7 +188,6 @@ class AVLTree(BST):
             raise Exception('z,y,x node configuration not recognized')
 
     def right_rotate(self, z):
-        print("Right rotate")
         sub_root = z.parent
         y = z.left
         t3 = y.right
@@ -202,7 +210,6 @@ class AVLTree(BST):
         y.get_height()
 
     def left_rotate(self, z):
-        print("Left Rotate")
         sub_root = z.parent
         y = z.right
         t2 = y.left
