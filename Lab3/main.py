@@ -1,6 +1,7 @@
 from cmath import sqrt
 
 from data_structures.binary_trees.avl import AVLTree
+from data_structures.binary_trees.RedBlack import RedBlackTree
 from timeit import default_timer as timer
 
 
@@ -16,11 +17,14 @@ def read_file_into_tree(file_name, tree):
     :param tree: Linked List to add all ID's.
     """
     # Checks.
+    if not isinstance(file_name, str):
+        raise ValueError("'str required here. Created by @Edd1e234'")
+
     try:
         file = open(file_name, "r")
     except FileNotFoundError:
         print("File not found")
-        return
+        raise FileNotFoundError(file_name + "not found...")
 
     count = 0
     words_to_use = []
@@ -42,19 +46,14 @@ def read_file_into_tree(file_name, tree):
                     vector_list.append(float(i))
                 except ValueError:
                     # Raises Exception
-                    raise ValueError("This file does not contain correct data. Does not contain float numbers. Created "
-                                     "by @Edd1e234")
+                    raise ValueError("This file does not contain correct data. Does not contain float numbers. "
+                                     "Created by @Edd1e234")
             tree.insert(words[0], vector_list)
             words_to_use.append(words[0])
-            count += 1
-        if count == 500:
-            print("500 Reached")
-        if count == 1500:
-            print("1500 Reached")
-        if count == 2500:
-            print("Half Way there")
-        if count == 5000:
-            break
+            count += 0
+
+            if count is 5000:
+                break
 
     file.close()
     # Uncomment to view all words available to use for part 2.
@@ -67,12 +66,13 @@ def read_file_sim(file_name, tree):
         file = open(file_name, "r")
     except FileNotFoundError:
         print("File not found")
+        raise FileNotFoundError("File not found, Created by @Edd1e234")
         return
     print("Printing Words along with their similarities.\n")
     for line in file:
         words = line.split(" ")
         print(words[0], words[1][:len(words[1]) - 1], sim(words[0], words[1][:len(words[1]) - 1], tree))
-    print("Finished Part 2.")
+    print("\nFinished Part 2.")
     file.close()
 
 
@@ -81,6 +81,8 @@ def sim(w1, w2, tree):
     """
     Gets the dot product of w1 and w2. Gets the vectors from the list.
     """
+
+    # Gets vector list.
     w1_node = tree.get_node(w1)
     w2_node = tree.get_node(w2)
 
@@ -104,6 +106,27 @@ def sim(w1, w2, tree):
     return dot_product / (sqrt(sum_of_w1) * sqrt(sum_of_w2))
 
 
+# Solution A
+def get_total_nodes(tree):
+    return tree.node_total
+
+
+# Solution B
+def get_tree_height(tree):
+    if tree.root is None:
+        return 0
+    else:
+        return tree.root.get_height()
+
+
+# Solution C
+def get_all_words(file_name, tree):
+    node_keys = []
+    get_words(tree.root, node_keys)
+    generate_file(file_name, node_keys)
+    print("File '" + file_name + "' generated all keys. ")
+
+
 # Part of Solution C
 def get_words(node, node_keys):
     if node is None:
@@ -113,20 +136,19 @@ def get_words(node, node_keys):
     get_words(node.right, node_keys)
 
 
-# Solution C
-def get_all_words(file_name, tree):
-    node_keys = []
-    get_words(tree.root, node_keys)
-    generate_file(file_name, node_keys)
-    print("File ", file_name, " generated all keys. ")
-
-
 # Util function, generates file with name of 'file_name', contents of the file are 'node_keys'.
 def generate_file(file_name, node_keys):
+    """
+    Generates a file with the name 'file_name', the file is populated with 'node_keys'.
+    :param file_name: Name of the file wanted generated.
+    :param node_keys: The keys to be written in file.
+    :return: Will raise Value Error if 'node_keys' is none or 'file_name' is None.
+    """
     if file_name is None:
-        raise ValueError("'file_name' is not present.")
+        raise ValueError("'file_name' is not present. This was created by @Edd1e234")
     if node_keys is None or len(node_keys) is 0:
-        raise ValueError("'node_keys' has no values, file not created. This was created by @Edd1e234")
+        raise ValueError("'node_keys' has no values. This was created by @Edd1e234")
+
     file = open(file_name, "w+")
     for i in node_keys:
         file.write(i + "\n")
@@ -149,42 +171,88 @@ def get_desired_depth(file_name, tree, desired_depth):
     nodes_keys = []
     get_node_at_depth(tree.root, desired_depth, nodes_keys)
     generate_file(file_name, nodes_keys)
-    print("File ", file_name, " generated with keys at depth: ", desired_depth)
+    print("File '" + file_name + "' generated with keys at depth: :", desired_depth)
 
 
+# This function is meant for testing purposes.
 def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
-    tree = None
+    """
+    This function will run all solutions.
+    :param file_name_root: Where the words are meant to be read from.
+    :param words_to_use_file: Words to check similarities.
+    :param desired_depth: What depth to get from.
+    :param avl_or_rb: Which tree to use, for example, if 'avl_or_rb' is true then avl will be used.
+                        Vice versa.
+    :return:
+        Write all words to 'all.words.in.list.txt'.
+        Write all words found at 'desired_depth' to 'words.at.desired.depth.txt'. If desired depth is None or 0.
+            then file will not be outputted.
+        NOTE: If files are present this from previous runs.
+
+    """
+
+    # Checks.
+    if not isinstance(file_name_root, str) and not isinstance(words_to_use_file, str):
+        raise ValueError("'str required here. Created by @Edd1e234'")
+    if not isinstance(desired_depth, int) and not isinstance(avl_or_rb, bool):
+        raise ValueError("'bool' and 'int' required here. Created by @Edd1e234")
+
     if avl_or_rb:
         print("AVL Being Used\n")
         tree = AVLTree()
+    else:
+        print("Red Black Tree being Used")
+        tree = RedBlackTree()
+
     total_time_start = timer()
     read_file_into_tree(file_name_root, tree)
     file_read_time_end = timer()
     print("Finished reading tree: ", file_read_time_end - total_time_start)
 
+    if tree.root is None:
+        print("TREE ROOT IS NONE")
+
+        raise SystemError("Something Went Wrong, tree root is none, text file empty?"
+                          "Created by @Edd1e234")
+
     sim_time_start = timer()
     read_file_sim(words_to_use_file, tree)
     sim_time_end = timer()
 
-    print("Finished Sim: ", sim_time_end - sim_time_start)
+    print("Finished Sim: ", sim_time_end - sim_time_start, "\n")
+
+    print("Solution A")
+    print("Total node amount in tree ", tree.node_total)
+    print("No time needed this is one operation.\n")
+
+    height_timer_start = timer()
+    print("Tree height is, ", get_tree_height(tree))
+    height_timer_end = timer()
+
+    print("Get Solution B")
+    print("Height timer took ",
+          height_timer_end - height_timer_start, "\n")
 
     get_all_words_start = timer()
     get_all_words("all.words.in.list.txt", tree)
     get_all_words_end = timer()
 
-    print("Finished printing all words: ", get_all_words_end - get_all_words_start)
+    print("Solution C")
+    print("Finished printing all words: ",
+          get_all_words_end - get_all_words_start, "\n")
 
-    desired_depth_start = timer()
-    get_desired_depth("words.at.desired.depth.txt", tree, desired_depth)
-    desired_depth_end = timer()
-    print("Finished Desired Depth Done: ", desired_depth_end - desired_depth_start)
+    # Try to eliminate steps if possible.
+    if desired_depth is not None or desired_depth is not 0:
+        desired_depth_start = timer()
+        get_desired_depth("words.at.desired.depth.txt", tree, desired_depth)
+        desired_depth_end = timer()
+
+        print("Solution D:")
+        print("Finished Desired Depth: ",
+              desired_depth_end - desired_depth_start, "\n")
 
     total_time_end = timer()
     print("Total Time is: ", total_time_end - total_time_start)
-    print("Nodes Are....")
-    print(tree.root.key)
-    print(tree.root.right.key)
-    print(tree.root.left.key)
 
 
 def main():
@@ -201,9 +269,14 @@ def main():
         raise ValueError("Not sure what you put, but '" + num + "' is not valid. Created by @Edd1e234")
 
     # Run for main solution.
-    # run_program("glove.6b.50d.txt", "words_to_use.txt", 1, avl_or_br)
-
-    run_program("test_file_1.txt", "words_to_use_2.txt", 1, avl_or_br)
+    # run_program("glove.6b.50d.txt", "words_to_use.txt", 5, avl_or_br)
+    run_program("glove.6b.50d.txt", "words_to_use.txt", 5, not avl_or_br)
+    # run_program("text_file_1.txt", "words_to_use_2.txt", 1, avl_or_br)
+    # run_program("text_file_1.txt", "words_to_use_2.txt", 1, not avl_or_br)
+    # run_program("text_file_2.txt", "words_to_use.txt", 1, avl_or_br)
+    # run_program("text_file_2.txt", "words_to_use.txt", 1, not avl_or_br)
+    # run_program("text_file_1.txt", "text_file_1.txt", 1, avl_or_br)
+    # run_program("text_file_1.txt", "text_file_1.txt", 1, not avl_or_br)
 
     print("END OF PROGRAM")
 

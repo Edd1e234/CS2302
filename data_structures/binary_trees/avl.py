@@ -89,6 +89,9 @@ class AVLTree(BST):
     """
     Extends Binary Search Tree. Will use many of the same properties.
     """
+    # TODO(Edd1e234): When deletion method is added, remember to subtract from this
+    #                 Value
+    node_total = 0
 
     def get_node(self, key):
         cur_node = self.root
@@ -112,7 +115,7 @@ class AVLTree(BST):
             self.root = AVLNode(key, data)
         else:
             self._insert(key, self.root, data)
-        self.root.get_height()
+        self.node_total += 1
 
     def _insert(self, key, cur_node, data=None):
         if cur_node.key > key:
@@ -224,5 +227,3 @@ class AVLTree(BST):
 
     def print_full_tree(self):
         print2D(self.root)
-        self.root.get_height()
-        print("Tree height is", self.root.height)
