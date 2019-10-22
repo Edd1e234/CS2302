@@ -89,10 +89,6 @@ class AVLTree(BST):
     """
     Extends Binary Search Tree. Will use many of the same properties.
     """
-    tree_height = 0
-
-    def set_tree_height(self):
-        self.tree_height = self.root.get_height()
 
     def get_node(self, key):
         cur_node = self.root
@@ -116,27 +112,25 @@ class AVLTree(BST):
             self.root = AVLNode(key, data)
         else:
             self._insert(key, self.root, data)
+        self.root.get_height()
 
     def _insert(self, key, cur_node, data=None):
         if cur_node.key > key:
             if cur_node.left is None:
                 cur_node.left = AVLNode(key, data)
                 cur_node.left.parent = cur_node
-                if self.is_balanced():
-                    self.inspect_insertion(cur_node.left, [])
+                self.inspect_insertion(cur_node.left, [])
             else:
                 self._insert(key, cur_node.left, data)
         elif cur_node.key < key:
             if cur_node.right is None:
                 cur_node.right = AVLNode(key, data)
                 cur_node.right.parent = cur_node
-                if self.is_balanced():
-                    self.inspect_insertion(cur_node.right, [])
+                self.inspect_insertion(cur_node.right, [])
             else:
                 self._insert(key, cur_node.right, data)
         else:
             print("Value already in tree.")
-        self.tree_height = get_height(self.root)
 
     def inspect_insertion(self, cur_node, path=None):
         if cur_node.parent is None:

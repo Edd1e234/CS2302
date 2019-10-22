@@ -1,3 +1,5 @@
+from cmath import sqrt
+
 from data_structures.binary_trees.avl import AVLTree
 from timeit import default_timer as timer
 
@@ -39,18 +41,19 @@ def read_file_into_tree(file_name, tree):
                 try:
                     vector_list.append(float(i))
                 except ValueError:
-                    print("This file does not contain correct data. Does not contain float numbers.")
-                    return
+                    # Raises Exception
+                    raise ValueError("This file does not contain correct data. Does not contain float numbers. Created "
+                                     "by @Edd1e234")
             tree.insert(words[0], vector_list)
             words_to_use.append(words[0])
             count += 1
         if count == 500:
             print("500 Reached")
         if count == 1500:
-            print("1000 Reached")
+            print("1500 Reached")
         if count == 2500:
             print("Half Way there")
-        if count == 2500:
+        if count == 5000:
             break
 
     file.close()
@@ -81,11 +84,24 @@ def sim(w1, w2, tree):
     w1_node = tree.get_node(w1)
     w2_node = tree.get_node(w2)
 
+    if w1_node is None:
+        print(w1, " not found")
+        return
+    if w2_node is None:
+        print(w2, " not found")
+        return
+
+    sum_of_w1 = 0
+    sum_of_w2 = 0
     dot_product = 0
     for i in range(len(w1_node.data)):
-        sum_of_vector = float(w1_node.data[i]) + float(w2_node.data[i])
+        sum_of_vector = float(w1_node.data[i]) * float(w2_node.data[i])
+
+        sum_of_w1 += (float(w1_node.data[i]) * float(w1_node.data[i]))
+        sum_of_w2 += (float(w2_node.data[i]) * float(w2_node.data[i]))
+
         dot_product += sum_of_vector
-    return dot_product
+    return dot_product / (sqrt(sum_of_w1) * sqrt(sum_of_w2))
 
 
 # Part of Solution C
@@ -110,7 +126,7 @@ def generate_file(file_name, node_keys):
     if file_name is None:
         raise ValueError("'file_name' is not present.")
     if node_keys is None or len(node_keys) is 0:
-        raise ValueError("'node_keys' has no values, file not created.")
+        raise ValueError("'node_keys' has no values, file not created. This was created by @Edd1e234")
     file = open(file_name, "w+")
     for i in node_keys:
         file.write(i + "\n")
@@ -161,19 +177,33 @@ def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
     desired_depth_start = timer()
     get_desired_depth("words.at.desired.depth.txt", tree, desired_depth)
     desired_depth_end = timer()
-    print("Finished Desired Done: ", desired_depth_end - desired_depth_start)
+    print("Finished Desired Depth Done: ", desired_depth_end - desired_depth_start)
 
     total_time_end = timer()
-    print("Total Time is: ", total_time_end - total_time_end)
+    print("Total Time is: ", total_time_end - total_time_start)
+    print("Nodes Are....")
+    print(tree.root.key)
+    print(tree.root.right.key)
+    print(tree.root.left.key)
+
 
 def main():
     print("Welcome\nPress 1 for AVL TREE\nPress 2 for Red Black Tree")
     num = input("Enter Here: ")
-    tree = None
+    try:
+        if int(num) is 1:
+            avl_or_br = True
+        elif int(num) is 2:
+            avl_or_br = False
+        else:
+            raise ValueError("Not sure what you put, but " + num + " is not valid. Created by @Edd1e234")
+    except ValueError:
+        raise ValueError("Not sure what you put, but '" + num + "' is not valid. Created by @Edd1e234")
 
-    if int(num) is 1:
-        tree = AVLTree()
-    run_program("glove.6b.50d.txt", "words_to_use.txt", 5, True)
+    # Run for main solution.
+    # run_program("glove.6b.50d.txt", "words_to_use.txt", 1, avl_or_br)
+
+    run_program("test_file_1.txt", "words_to_use_2.txt", 1, avl_or_br)
 
     print("END OF PROGRAM")
 
