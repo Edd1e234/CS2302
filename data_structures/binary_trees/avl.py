@@ -111,12 +111,11 @@ class AVLTree(BST):
                 return None
 
     def insert(self, key, data=None):
-        print(key)
+        # print(key)
         if self.root is None:
             self.root = AVLNode(key, data)
         else:
             self._insert(key, self.root, data)
-        self.set_tree_height()
 
     def _insert(self, key, cur_node, data=None):
         if cur_node.key > key:

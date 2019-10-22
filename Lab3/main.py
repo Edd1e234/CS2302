@@ -1,4 +1,5 @@
 from data_structures.binary_trees.avl import AVLTree
+from timeit import default_timer as timer
 
 
 # Part 1
@@ -43,8 +44,14 @@ def read_file_into_tree(file_name, tree):
             tree.insert(words[0], vector_list)
             words_to_use.append(words[0])
             count += 1
-        # if count is 30:
-            # break
+        if count == 500:
+            print("500 Reached")
+        if count == 1500:
+            print("1000 Reached")
+        if count == 2500:
+            print("Half Way there")
+        if count == 2500:
+            break
 
     file.close()
     # Uncomment to view all words available to use for part 2.
@@ -76,7 +83,8 @@ def sim(w1, w2, tree):
 
     dot_product = 0
     for i in range(len(w1_node.data)):
-        dot_product += float(w1_node.data[i]) + float(w2_node.data[i])
+        sum_of_vector = float(w1_node.data[i]) + float(w2_node.data[i])
+        dot_product += sum_of_vector
     return dot_product
 
 
@@ -112,12 +120,12 @@ def generate_file(file_name, node_keys):
 def get_node_at_depth(node, desired_depth, node_keys):
     if node is None:
         return
-    if node.height - 1 == desired_depth:
+    if desired_depth == 0:
         node_keys.append(node.key)
         return
     else:
-        get_node_at_depth(node.left, desired_depth, node_keys)
-        get_node_at_depth(node.right, desired_depth, node_keys)
+        get_node_at_depth(node.left, desired_depth - 1, node_keys)
+        get_node_at_depth(node.right, desired_depth - 1, node_keys)
 
 
 # Solution D.
@@ -128,19 +136,44 @@ def get_desired_depth(file_name, tree, desired_depth):
     print("File ", file_name, " generated with keys at depth: ", desired_depth)
 
 
+def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
+    tree = None
+    if avl_or_rb:
+        print("AVL Being Used\n")
+        tree = AVLTree()
+    total_time_start = timer()
+    read_file_into_tree(file_name_root, tree)
+    file_read_time_end = timer()
+    print("Finished reading tree: ", file_read_time_end - total_time_start)
+
+    sim_time_start = timer()
+    read_file_sim(words_to_use_file, tree)
+    sim_time_end = timer()
+
+    print("Finished Sim: ", sim_time_end - sim_time_start)
+
+    get_all_words_start = timer()
+    get_all_words("all.words.in.list.txt", tree)
+    get_all_words_end = timer()
+
+    print("Finished printing all words: ", get_all_words_end - get_all_words_start)
+
+    desired_depth_start = timer()
+    get_desired_depth("words.at.desired.depth.txt", tree, desired_depth)
+    desired_depth_end = timer()
+    print("Finished Desired Done: ", desired_depth_end - desired_depth_start)
+
+    total_time_end = timer()
+    print("Total Time is: ", total_time_end - total_time_end)
+
 def main():
-    print("Welcome\n Press 1 for AVL TREE\n Press 2 for Red Black Tree")
+    print("Welcome\nPress 1 for AVL TREE\nPress 2 for Red Black Tree")
     num = input("Enter Here: ")
     tree = None
 
     if int(num) is 1:
         tree = AVLTree()
-
-    read_file_into_tree("glove.6b.50d.txt", tree)
-    read_file_sim("words_to_use.txt", tree)
-
-    get_all_words("all.words.in.list.txt", tree)
-    get_desired_depth("words.at.desired.depth.txt", tree, 5)
+    run_program("glove.6b.50d.txt", "words_to_use.txt", 5, True)
 
     print("END OF PROGRAM")
 
