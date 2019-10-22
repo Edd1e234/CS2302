@@ -116,6 +116,7 @@ class AVLTree(BST):
         else:
             self._insert(key, self.root, data)
         self.node_total += 1
+        self.root.get_height()
 
     def _insert(self, key, cur_node, data=None):
         if cur_node.key > key:
@@ -139,8 +140,8 @@ class AVLTree(BST):
         if cur_node.parent is None:
             return
         path.insert(0, cur_node)
-        left_height = get_height(cur_node.parent.left)
-        right_height = get_height(cur_node.parent.right)
+        left_height = get_height_set(cur_node.parent.left)
+        right_height = get_height_set(cur_node.parent.right)
 
         if abs(left_height - right_height) > 1:
             path.insert(0, cur_node.parent)

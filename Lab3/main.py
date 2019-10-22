@@ -50,9 +50,9 @@ def read_file_into_tree(file_name, tree):
                                      "Created by @Edd1e234")
             tree.insert(words[0], vector_list)
             words_to_use.append(words[0])
-            count += 0
+            count += 1
 
-            if count is 5000:
+            if count == 500:
                 break
 
     file.close()
@@ -244,7 +244,7 @@ def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
     # Try to eliminate steps if possible.
     if desired_depth is not None or desired_depth is not 0:
         desired_depth_start = timer()
-        get_desired_depth("words.at.desired.depth.txt", tree, desired_depth)
+        get_desired_depth("words.at.desired.depth_2.txt", tree, desired_depth)
         desired_depth_end = timer()
 
         print("Solution D:")
