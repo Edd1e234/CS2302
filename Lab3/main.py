@@ -2,17 +2,14 @@ from cmath import sqrt
 
 from data_structures.binary_trees.avl import AVLTree
 from data_structures.binary_trees.RedBlack import RedBlackTree
-from timeit import default_timer as timer
-
+import time
 
 # Part 1
 def read_file_into_tree(file_name, tree):
     """
     Function will open and read a text file, the text file name will be given by 'file_name'.
     Once file is open it will go through and read line by line for employee ID's.
-
     Bad inputs should be handled.
-
     :param file_name: Will be the name of file being searched.
     :param tree: Linked List to add all ID's.
     """
@@ -27,7 +24,6 @@ def read_file_into_tree(file_name, tree):
         raise FileNotFoundError(file_name + "not found...")
 
     count = 0
-    words_to_use = []
 
     print("inserting.....")
 
@@ -36,7 +32,6 @@ def read_file_into_tree(file_name, tree):
     # Checks that there is no bad inputs, in terms of vectors.
     for line in file:
         words = line.split(" ")
-
         if words[0].isalpha():
 
             # Checking if there actual float numbers.
@@ -49,12 +44,11 @@ def read_file_into_tree(file_name, tree):
                     raise ValueError("This file does not contain correct data. Does not contain float numbers. "
                                      "Created by @Edd1e234")
             tree.insert(words[0], vector_list)
-            words_to_use.append(words[0])
             count += 1
+            if count == 20000:
+                return
 
-            if count == 500:
-                break
-
+    print(count)
     file.close()
     # Uncomment to view all words available to use for part 2.
     # print(words_to_use)
@@ -204,10 +198,11 @@ def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
         print("Red Black Tree being Used")
         tree = RedBlackTree()
 
-    total_time_start = timer()
+    total_time_start = time.time()
+    file_read_time_start = time.time()
     read_file_into_tree(file_name_root, tree)
-    file_read_time_end = timer()
-    print("Finished reading tree: ", file_read_time_end - total_time_start)
+    file_read_time_end = time.time()
+    print("Finished reading tree: ", file_read_time_end - file_read_time_start)
 
     if tree.root is None:
         print("TREE ROOT IS NONE")
@@ -215,9 +210,9 @@ def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
         raise SystemError("Something Went Wrong, tree root is none, text file empty?"
                           "Created by @Edd1e234")
 
-    sim_time_start = timer()
+    sim_time_start = time.time()
     read_file_sim(words_to_use_file, tree)
-    sim_time_end = timer()
+    sim_time_end = time.time()
 
     print("Finished Sim: ", sim_time_end - sim_time_start, "\n")
 
@@ -225,17 +220,17 @@ def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
     print("Total node amount in tree ", tree.node_total)
     print("No time needed this is one operation.\n")
 
-    height_timer_start = timer()
+    height_timer_start = time.time()
     print("Tree height is, ", get_tree_height(tree))
-    height_timer_end = timer()
+    height_timer_end = time.time()
 
     print("Get Solution B")
     print("Height timer took ",
           height_timer_end - height_timer_start, "\n")
 
-    get_all_words_start = timer()
+    get_all_words_start = time.time()
     get_all_words("all.words.in.list.txt", tree)
-    get_all_words_end = timer()
+    get_all_words_end = time.time()
 
     print("Solution C")
     print("Finished printing all words: ",
@@ -243,15 +238,15 @@ def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
 
     # Try to eliminate steps if possible.
     if desired_depth is not None or desired_depth is not 0:
-        desired_depth_start = timer()
+        desired_depth_start = time.time()
         get_desired_depth("words.at.desired.depth_2.txt", tree, desired_depth)
-        desired_depth_end = timer()
+        desired_depth_end = time.time()
 
         print("Solution D:")
         print("Finished Desired Depth: ",
               desired_depth_end - desired_depth_start, "\n")
 
-    total_time_end = timer()
+    total_time_end = time.time()
     print("Total Time is: ", total_time_end - total_time_start)
 
 
@@ -269,10 +264,10 @@ def main():
         raise ValueError("Not sure what you put, but '" + num + "' is not valid. Created by @Edd1e234")
 
     # Run for main solution.
-    # run_program("glove.6b.50d.txt", "words_to_use.txt", 5, avl_or_br)
+    run_program("glove.6b.50d.txt", "words_to_use.txt", 5, avl_or_br)
     run_program("glove.6b.50d.txt", "words_to_use.txt", 5, not avl_or_br)
-    # run_program("text_file_1.txt", "words_to_use_2.txt", 1, avl_or_br)
-    # run_program("text_file_1.txt", "words_to_use_2.txt", 1, not avl_or_br)
+    run_program("text_file_1.txt", "words_to_use_2.txt", 1, avl_or_br)
+    run_program("text_file_1.txt", "words_to_use_2.txt", 1, not avl_or_br)
     # run_program("text_file_2.txt", "words_to_use.txt", 1, avl_or_br)
     # run_program("text_file_2.txt", "words_to_use.txt", 1, not avl_or_br)
     # run_program("text_file_1.txt", "text_file_1.txt", 1, avl_or_br)
