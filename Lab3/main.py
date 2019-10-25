@@ -4,6 +4,7 @@ from data_structures.binary_trees.avl import AVLTree
 from data_structures.binary_trees.RedBlack import RedBlackTree
 import time
 
+
 # Part 1
 def read_file_into_tree(file_name, tree):
     """
@@ -61,7 +62,6 @@ def read_file_sim(file_name, tree):
     except FileNotFoundError:
         print("File not found")
         raise FileNotFoundError("File not found, Created by @Edd1e234")
-        return
     print("Printing Words along with their similarities.\n")
     for line in file:
         words = line.split(" ")
