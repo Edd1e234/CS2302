@@ -1,4 +1,7 @@
 class HashTable:
+    """
+    This is more of a set if anything. 
+    """
     num_of_elements = 0
 
     # Builds a hash table of size 'size'

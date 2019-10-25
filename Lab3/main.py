@@ -45,7 +45,7 @@ def read_file_into_tree(file_name, tree):
                                      "Created by @Edd1e234")
             tree.insert(words[0], vector_list)
             count += 1
-            if count == 20000:
+            if count == 5000:
                 return
 
     print(count)
