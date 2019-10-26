@@ -49,7 +49,7 @@ def partition(arr, low, high):
     for j in range(low, high):
 
         # If current element is smaller than or equal to pivot.
-        # The only change of code comes here. 
+        # The only change of code comes here.
         if arr[j].key <= pivot:
             i += 1
             # Swap them.
