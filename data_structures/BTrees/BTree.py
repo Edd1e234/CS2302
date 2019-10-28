@@ -69,10 +69,13 @@ class BTree:
             left_child = BTreeNode(node.keys[:mid], max_num_keys=node.max_num_keys)
             right_child = BTreeNode(node.keys[mid + 1:], max_num_keys=node.max_num_keys)
         else:
-            left_child = BTreeNode(node.keys[:mid], node.children[:mid + 1], node.is_leaf, max_num_keys=node.max_num_keys)
-            right_child = BTreeNode(node.keys[mid + 1:], node.children[mid + 1:], node.is_leaf, max_num_keys=node.max_num_keys)
+            left_child = BTreeNode(node.keys[:mid], node.children[:mid + 1], node.is_leaf,
+                                   max_num_keys=node.max_num_keys)
+            right_child = BTreeNode(node.keys[mid + 1:], node.children[mid + 1:], node.is_leaf,
+                                    max_num_keys=node.max_num_keys)
         return node.keys[mid], left_child, right_child
 
+    # Changed made, needed a new way of sorting.
     def insert_leaf(self, i, node=None):
         if node is None:
             node = self.root
@@ -80,6 +83,7 @@ class BTree:
         node.keys.append(i)
         node.keys.sort()
 
+    # Seems fine no change needed.
     def leaves(self, node=None):
         if node is None:
             node = self.root
@@ -91,6 +95,7 @@ class BTree:
             s = s + self.leaves(c)
         return s
 
+    # Seems fine no change needed.
     def insert(self, i, node=None):
         if node is None:
             node = self.root
@@ -138,12 +143,14 @@ class BTree:
                 print(space, node.keys[i])
                 self.print_d(space + '   ', node.children[i])
 
+    # Change the searching function.
     def search(self, k, node=None):
         if node is None:
             node = self.root
         # Returns node where k is, or None if k is not in the tree
         if k in node.keys:
             return node
+
         if node.is_leaf:
             return None
         return self.search(k, node.children[self.find_child(k, node)])
@@ -221,5 +228,4 @@ def main():
 
 
 if __name__ == "__main__":
-
     main()

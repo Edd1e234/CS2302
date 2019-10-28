@@ -61,23 +61,52 @@ def partition(arr, low, high):
 class BTreeObject(BTree):
     # Constructor
     def __init__(self, max_num_keys=5):
-        self.max_num_keys = max_num_keys
-        self.root = BTreeNode(max_num_keys=max_num_keys)
+        super().__init__(max_num_keys)
+        self.total_nodes = 0
 
-    def find_child(self, k, node=None):
+    def find_child(self, object_value, node=None):
         # Determines value of c, such that k must be in subtree node.children[c], if k is in the BTree
         if node is None:
             node = self.root
 
-            for i in range(len(node.keys)):
-                if k < node.keys[i].key:
-                    return i
-                return len(node.keys)
-        return None
+        for i in range(len(node.keys)):
+            if object_value.key < node.keys[i].key:
+                return i
+        return len(node.keys)
+
+    def find_child_with_key(self, key, node=None):
+        # Determines value of c, such that k must be in subtree node.children[c], if k is in the BTree
+        if node is None:
+            node = self.root
+
+        for i in range(len(node.keys)):
+            if key < node.keys[i].key:
+                return i
+        return len(node.keys)
 
     def insert_leaf(self, i, node=None):
         if node is None:
             node = self.root
 
         node.keys.append(i)
+        quickSort(node.keys, 0, len(node.keys) - 1)
+        #print("BEGIN")
+        #for i in node.keys:
+           # print(i.key)
+        #print("STOOOOOP")
 
+    def insert(self, i, node=None):
+        self.total_nodes += 1
+        super().insert(i)
+
+    def search(self, k, node=None):
+        if node is None:
+            node = self.root
+
+        # Returns node where k is, or None if k is not in the tree.
+        for i in node.keys:
+            if i.key == k:
+                return i
+        if node.is_leaf:
+            return None
+        return self.search(k, node.children[self.find_child_with_key(k, node)])
