@@ -182,7 +182,6 @@ def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
         Write all words found at 'desired_depth' to 'words.at.desired.depth.txt'. If desired depth is None or 0.
             then file will not be outputted.
         NOTE: If files are present this from previous runs.
-
     """
 
     # Checks.
@@ -277,3 +276,14 @@ def main():
 
 
 main()
+
+if __name__ == "__main__":
+    main()
+
+
+def run_lab3():
+    avl_or_br = True
+    run_program("glove.6b.50d.txt", "words_to_use.txt", 5, avl_or_br)
+    run_program("glove.6b.50d.txt", "words_to_use.txt", 5, not avl_or_br)
+    run_program("text_file_1.txt", "words_to_use_2.txt", 1, avl_or_br)
+    run_program("text_file_1.txt", "words_to_use_2.txt", 1, not avl_or_br)

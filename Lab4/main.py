@@ -31,8 +31,8 @@ def read_file_into_tree(file_name, tree):
                     vector_list.append(float(i))
                 except ValueError:
                     # Raises Exception
-                    raise ValueError("This file does not contain correct data. Does not contain float numbers. "
-                                     "Created by @Edd1e234")
+                    raise ValueError("This file does not contain correct data. Does not contain float numbers. '", i,
+                                     "' Created by @Edd1e234")
             key = ObjectKey(words[0], vector_list)
             tree.insert(key)
             count += 1
@@ -95,6 +95,24 @@ def get_all_words(file_name, tree):
     print("File '" + file_name + "' generated all keys. ")
 
 
+# Util function, generates file with name of 'file_name', contents of the file are 'node_keys'.
+def generate_file(file_name, node_keys):
+    """
+    Generates a file with the name 'file_name', the file is populated with 'node_keys'.
+    :param file_name: Name of the file wanted generated.
+    :param node_keys: The keys to be written in file.
+    :return: Will raise Value Error if 'node_keys' is none or 'file_name' is None.
+    """
+    if file_name is None:
+        raise ValueError("'file_name' is not present. This was created by @Edd1e234")
+    if node_keys is None or len(node_keys) is 0:
+        raise ValueError("'node_keys' has no values. This was created by @Edd1e234")
+
+    file = open(file_name, "w+")
+    for i in node_keys:
+        file.write(i + "\n")
+
+
 # Part of Solution C.
 def get_words(node, node_keys):
     # Used the same logic as the 'print' function in the parent class of 'BTreeObject'.
@@ -131,35 +149,119 @@ def get_nodes_at_depth(node, desired_depth, node_keys):
 
 
 # Util function, generates file with name of 'file_name', contents of the file are 'node_keys'.
-def generate_file(file_name, node_keys):
+def run_program(file_name_root, words_to_use_file, desired_depth, max_size):
     """
-    Generates a file with the name 'file_name', the file is populated with 'node_keys'.
-    :param file_name: Name of the file wanted generated.
-    :param node_keys: The keys to be written in file.
-    :return: Will raise Value Error if 'node_keys' is none or 'file_name' is None.
+    This function will run all solutions.
+    :param max_size:
+    :param tree:
+    :param file_name_root: Where the words are meant to be read from.
+    :param words_to_use_file: Words to check similarities.
+    :param desired_depth: What depth to get from.
+    :return:
+        Write all words to 'all.words.in.list.txt'.
+        Write all words found at 'desired_depth' to 'words.at.desired.depth.txt'. If desired depth is None or 0.
+            then file will not be outputted.
+        NOTE: If files are present this from previous runs.
     """
-    if file_name is None:
-        raise ValueError("'file_name' is not present. This was created by @Edd1e234")
-    if node_keys is None or len(node_keys) is 0:
-        raise ValueError("'node_keys' has no values. This was created by @Edd1e234")
 
-    file = open(file_name, "w+")
-    for i in node_keys:
-        file.write(i + "\n")
+    # Checks.
+    if not isinstance(file_name_root, str) and not isinstance(words_to_use_file, str):
+        raise ValueError("'str required here. Created by @Edd1e234'")
+    if not isinstance(desired_depth, int) and not isinstance(max_size, int):
+        raise ValueError("'bool' and 'int' required here. Created by @Edd1e234")
+
+    tree = BTree(max_size)
+
+    total_time_start = time.time()
+    file_read_time_start = time.time()
+    read_file_into_tree(file_name_root, tree)
+    file_read_time_end = time.time()
+    file_read_time = file_read_time_end - file_read_time_start
+    print("Finished reading tree: ", file_read_time)
+
+    if tree.root is None:
+        print("TREE ROOT IS NONE")
+
+        raise SystemError("Something Went Wrong, tree root is none, text file empty?"
+                          "Created by @Edd1e234")
+
+    sim_time_start = time.time()
+    read_file_sim(words_to_use_file, tree)
+    sim_time_end = time.time()
+    sim_time = sim_time_end - sim_time_start
+
+    print("Finished Sim: ", sim_time, "\n")
+
+    print("Solution A")
+    print("Total node amount in tree ", tree.total_nodes)
+    print("No time needed this is one operation.\n")
+
+    height_timer_start = time.time()
+    print("Tree height is, ", get_tree_height(tree))
+    height_timer_end = time.time()
+
+    height_time = height_timer_end - height_timer_start
+
+    print("Get Solution B")
+    print("Height timer took ",
+          height_time, "\n")
+
+    get_all_words_start = time.time()
+    get_all_words("all.words.in.list.txt", tree)
+    get_all_words_end = time.time()
+
+    get_all_words_time = get_all_words_end - get_all_words_start
+
+    print("Solution C")
+    print("Finished printing all words: ",
+          get_all_words_time, "\n")
+
+    desired_depth_time = -1
+    # Try to eliminate steps if possible.
+    if desired_depth is not None or desired_depth is not 0:
+        desired_depth_start = time.time()
+        get_desired_depth("words.at.desired.depth.txt", tree, desired_depth)
+        desired_depth_end = time.time()
+        desired_depth_time = desired_depth_end - desired_depth_start
+
+        print("Solution D:")
+        print("Finished Desired Depth: ",
+              desired_depth_time, "\n")
+
+    total_time_end = time.time()
+    total_time = total_time_end - total_time_start
+    print("Total Time is: ", total_time)
+
+    return file_read_time, sim_time, height_time, get_all_words_time, desired_depth_time, total_time
+
+
+def results(keys_at_):
+    print("Time to read the file: ", keys_at_[0])
+    print("Time to search: ", keys_at_[1])
+    print("Time to find height: ", keys_at_[2])
+    print("Time to go through entire tree: ", keys_at_[3])
+    print("Time go get to desired depth: ", keys_at_[4])
+    print("Total Time for job to run: ", keys_at_[5])
 
 
 def main():
-    tree = BTree(40)
-    read_file_into_tree("/Users/greywind/"
-                        "Desktop/CS3/CS2302/Lab3/"
-                        "glove.6B.50d.txt", tree)
-    read_file_sim("words_to_use.txt", tree)
-    print("Total Nodes are.", get_total_nodes(tree))
-    get_all_words("all.words.in.Btree.txt", tree)
-    print("The height of the tree", get_tree_height(tree))
-    get_desired_depth("words.at.desired.depth.txt", tree, 1)
+    keys_at_5 = run_program("/Users/greywind/"
+                            "Desktop/CS3/CS2302/Lab3/"
+                            "glove.6B.50d.txt", "words_to_use.txt", 2, 5)
+    keys_at_50 = run_program("/Users/greywind/"
+                             "Desktop/CS3/CS2302/Lab3/"
+                             "glove.6B.50d.txt", "words_to_use.txt", 2, 50)
+    keys_at_500 = run_program("/Users/greywind/"
+                              "Desktop/CS3/CS2302/Lab3/"
+                              "glove.6B.50d.txt", "words_to_use.txt", 2, 500)
+    keys_at_1000 = run_program("/Users/greywind/"
+                               "Desktop/CS3/CS2302/Lab3/"
+                               "glove.6B.50d.txt", "words_to_use.txt", 2, 1000)
+    results(keys_at_5)
+    results(keys_at_50)
+    results(keys_at_500)
+    results(keys_at_1000)
     print("WORKS!")
 
 
-if __name__ == "__main__":
-    main()
+main()
