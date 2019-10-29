@@ -5,9 +5,16 @@ from data_structures.BTrees.BTreeObject import ObjectKey
 import time
 
 
-# TODO(Edd1e234): Write comments for all comments.
 # Part 1.
 def read_file_into_tree(file_name, tree):
+    """
+    Opens file using 'file_name', reads each line and separates by key and data. Embeddings will be
+    the data, while the actual word will be the string. Embeddings will be converts from strings to floats.
+    Function will have a controlled crash if there is a bad input.
+    :param file_name: str, that contains file path.
+    :param tree: BTree Datatype.
+    :return: Only edits BTree.
+    """
     if not isinstance(file_name, str):
         raise ValueError("'str required here. Created by @Edd1e234'")
 
@@ -33,6 +40,7 @@ def read_file_into_tree(file_name, tree):
                     # Raises Exception
                     raise ValueError("This file does not contain correct data. Does not contain float numbers. '", i,
                                      "' Created by @Edd1e234")
+            # Creates the object wrapper class.
             key = ObjectKey(words[0], vector_list)
             tree.insert(key)
             count += 1
@@ -40,8 +48,16 @@ def read_file_into_tree(file_name, tree):
     file.close()
 
 
+# TODO(Edd1e234): Fix bug here, last word gets cut off here.
 # Part 2.
 def read_file_sim(file_name, tree):
+    """
+    Opens file using 'file_name' as a path. Reads file line by line, each line contains words looking to compare.
+    Once words are read from file they're searched for in 'sim' function and compared.
+    :param file_name: str, path to file with words to compare.
+    :param tree: BTree datatype, contains populated Btree.
+    :return: Returns nothing, prints to the console.
+    """
     try:
         file = open(file_name, "r")
     except FileNotFoundError:
@@ -58,6 +74,13 @@ def read_file_sim(file_name, tree):
 
 # Part of Part 2.
 def sim(w1, w2, tree):
+    """
+    Searches for 'w1' and 'w2' in 'tree', compares them using the algorithm given in the document.
+    :param w1: str, first word to look for.
+    :param w2: str, second word to look for.
+    :param tree: Btree datatype.
+    :return: returns the answer using the the algorithm given.
+    """
     w1_node = tree.search(w1)
     w2_node = tree.search(w2)
 
@@ -84,11 +107,18 @@ def get_total_nodes(tree):
 
 # Solution B.
 def get_tree_height(tree):
+    # Gets the height of the tree using class function.
     return tree.height()
 
 
 # Solution C.
 def get_all_words(file_name, tree):
+    """
+    Goal is to get all words in the tree. Generate a file, and write all the words into the file.
+    :param file_name: str, name of the file to be generated.
+    :param tree: Btree object, where all the words live.
+    :return: Builds file.
+    """
     node_keys = []
     get_words(tree.root, node_keys)
     generate_file(file_name, node_keys)
@@ -115,6 +145,7 @@ def generate_file(file_name, node_keys):
 
 # Part of Solution C.
 def get_words(node, node_keys):
+    # 'node_keys' is where all the words will be placed.
     # Used the same logic as the 'print' function in the parent class of 'BTreeObject'.
     if node.is_leaf:
         for t in node.keys:
@@ -128,6 +159,13 @@ def get_words(node, node_keys):
 
 # Solution D.
 def get_desired_depth(file_name, tree, desired_depth):
+    """
+    Builds a file with all keys that are at depth 'desired_depth', using 'tree' of course.
+    :param file_name: str, builds a file with this name.
+    :param tree: Btree object, where all the keys will live.
+    :param desired_depth: The wanted depth.
+    :return: Builds a file with words at 'desired_depth'.
+    """
     node_keys = []
     get_nodes_at_depth(tree.root, desired_depth, node_keys)
     generate_file(file_name, node_keys)
@@ -152,16 +190,15 @@ def get_nodes_at_depth(node, desired_depth, node_keys):
 def run_program(file_name_root, words_to_use_file, desired_depth, max_size):
     """
     This function will run all solutions.
-    :param max_size:
-    :param tree:
+    :param max_size: Size of the tree keys.
     :param file_name_root: Where the words are meant to be read from.
     :param words_to_use_file: Words to check similarities.
     :param desired_depth: What depth to get from.
     :return:
+        List of times for each task.
         Write all words to 'all.words.in.list.txt'.
         Write all words found at 'desired_depth' to 'words.at.desired.depth.txt'. If desired depth is None or 0.
             then file will not be outputted.
-        NOTE: If files are present this from previous runs.
     """
 
     # Checks.
@@ -236,12 +273,15 @@ def run_program(file_name_root, words_to_use_file, desired_depth, max_size):
 
 
 def results(keys_at_):
+    # Writes the results.
+    print("Printing Time To Run Job")
     print("Time to read the file: ", keys_at_[0])
     print("Time to search: ", keys_at_[1])
     print("Time to find height: ", keys_at_[2])
     print("Time to go through entire tree: ", keys_at_[3])
     print("Time go get to desired depth: ", keys_at_[4])
     print("Total Time for job to run: ", keys_at_[5])
+    print()
 
 
 def main():
