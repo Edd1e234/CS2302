@@ -48,7 +48,6 @@ def read_file_into_tree(file_name, tree):
     file.close()
 
 
-# TODO(Edd1e234): Fix bug here, last word gets cut off here.
 # Part 2.
 def read_file_sim(file_name, tree):
     """
@@ -272,7 +271,7 @@ def run_program(file_name_root, words_to_use_file, desired_depth, max_size):
     return file_read_time, sim_time, height_time, get_all_words_time, desired_depth_time, total_time
 
 
-def results(keys_at_):
+def prints_results(keys_at_):
     # Writes the results.
     print("Printing Time To Run Job")
     print("Time to read the file: ", keys_at_[0])
@@ -291,16 +290,16 @@ def main():
     keys_at_50 = run_program("/Users/greywind/"
                              "Desktop/CS3/CS2302/Lab3/"
                              "glove.6B.50d.txt", "words_to_use.txt", 2, 50)
+    keys_at_100 = run_program("/Users/greywind/"
+                             "Desktop/CS3/CS2302/Lab3/"
+                             "glove.6B.50d.txt", "words_to_use.txt", 2, 100)
     keys_at_500 = run_program("/Users/greywind/"
                               "Desktop/CS3/CS2302/Lab3/"
                               "glove.6B.50d.txt", "words_to_use.txt", 2, 500)
-    keys_at_1000 = run_program("/Users/greywind/"
-                               "Desktop/CS3/CS2302/Lab3/"
-                               "glove.6B.50d.txt", "words_to_use.txt", 2, 1000)
-    results(keys_at_5)
-    results(keys_at_50)
-    results(keys_at_500)
-    results(keys_at_1000)
+    prints_results(keys_at_5)
+    prints_results(keys_at_50)
+    prints_results(keys_at_100)
+    prints_results(keys_at_500)
     print("WORKS!")
 
 
