@@ -46,8 +46,6 @@ def read_file_into_tree(file_name, tree):
                                      "Created by @Edd1e234")
             tree.insert(words[0], vector_list)
             count += 1
-            if count == 5000:
-                return
 
     print(count)
     file.close()
@@ -201,7 +199,8 @@ def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
     file_read_time_start = time.time()
     read_file_into_tree(file_name_root, tree)
     file_read_time_end = time.time()
-    print("Finished reading tree: ", file_read_time_end - file_read_time_start)
+    file_read_time = file_read_time_end - file_read_time_start
+    print("Finished reading tree: ", file_read_time)
 
     if tree.root is None:
         print("TREE ROOT IS NONE")
@@ -212,8 +211,9 @@ def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
     sim_time_start = time.time()
     read_file_sim(words_to_use_file, tree)
     sim_time_end = time.time()
+    sim_time = sim_time_end - sim_time_start
 
-    print("Finished Sim: ", sim_time_end - sim_time_start, "\n")
+    print("Finished Sim: ", sim_time, "\n")
 
     print("Solution A")
     print("Total node amount in tree ", tree.node_total)
@@ -223,30 +223,56 @@ def run_program(file_name_root, words_to_use_file, desired_depth, avl_or_rb):
     print("Tree height is, ", get_tree_height(tree))
     height_timer_end = time.time()
 
+    height_time = height_timer_end - height_timer_start
+
     print("Get Solution B")
     print("Height timer took ",
-          height_timer_end - height_timer_start, "\n")
+          height_time, "\n")
 
     get_all_words_start = time.time()
     get_all_words("all.words.in.list.txt", tree)
     get_all_words_end = time.time()
 
+    get_all_words_time = get_all_words_end - get_all_words_start
+
     print("Solution C")
     print("Finished printing all words: ",
-          get_all_words_end - get_all_words_start, "\n")
+          get_all_words_time, "\n")
 
+    desired_depth_time = -1
     # Try to eliminate steps if possible.
     if desired_depth is not None or desired_depth is not 0:
         desired_depth_start = time.time()
-        get_desired_depth("words.at.desired.depth_2.txt", tree, desired_depth)
+        get_desired_depth("words.at.desired.depth.txt", tree, desired_depth)
         desired_depth_end = time.time()
+        desired_depth_time = desired_depth_end - desired_depth_start
 
         print("Solution D:")
         print("Finished Desired Depth: ",
-              desired_depth_end - desired_depth_start, "\n")
+              desired_depth_time, "\n")
 
     total_time_end = time.time()
-    print("Total Time is: ", total_time_end - total_time_start)
+    total_time = total_time_end - total_time_start
+    print("Total Time is: ", total_time)
+
+    return file_read_time, sim_time, height_time, \
+           get_all_words_time, desired_depth_time, total_time, avl_or_rb
+
+
+def prints_results(keys_at_):
+    # Writes the results.
+    if keys_at_[-1]:
+        print("Avl Tree")
+    else:
+        print("Red and Black Tree")
+    print("Printing Time To Run Job")
+    print("Time to read the file: ", keys_at_[0])
+    print("Time to search: ", keys_at_[1])
+    print("Time to find height: ", keys_at_[2])
+    print("Time to go through entire tree: ", keys_at_[3])
+    print("Time go get to desired depth: ", keys_at_[4])
+    print("Total Time for job to run: ", keys_at_[5])
+    print()
 
 
 def main():
@@ -263,27 +289,17 @@ def main():
         raise ValueError("Not sure what you put, but '" + num + "' is not valid. Created by @Edd1e234")
 
     # Run for main solution.
-    run_program("glove.6b.50d.txt", "words_to_use.txt", 5, avl_or_br)
-    run_program("glove.6b.50d.txt", "words_to_use.txt", 5, not avl_or_br)
-    run_program("text_file_1.txt", "words_to_use_2.txt", 1, avl_or_br)
-    run_program("text_file_1.txt", "words_to_use_2.txt", 1, not avl_or_br)
-    # run_program("text_file_2.txt", "words_to_use.txt", 1, avl_or_br)
-    # run_program("text_file_2.txt", "words_to_use.txt", 1, not avl_or_br)
-    # run_program("text_file_1.txt", "text_file_1.txt", 1, avl_or_br)
-    # run_program("text_file_1.txt", "text_file_1.txt", 1, not avl_or_br)
+    keys_avl = run_program("glove.6b.50d.txt", "words_to_use.txt", 5, avl_or_br)
+    keys_rb = run_program("glove.6b.50d.txt", "words_to_use.txt", 5, not avl_or_br)
+    keys_avl_2 = run_program("text_file_1.txt", "words_to_use_2.txt", 1, avl_or_br)
+    keys_rb_2 = run_program("text_file_1.txt", "words_to_use_2.txt", 1, not avl_or_br)
+
+    prints_results(keys_avl)
+    prints_results(keys_rb)
+    prints_results(keys_avl_2)
+    prints_results(keys_rb_2)
 
     print("END OF PROGRAM")
 
 
 main()
-
-if __name__ == "__main__":
-    main()
-
-
-def run_lab3():
-    avl_or_br = True
-    run_program("glove.6b.50d.txt", "words_to_use.txt", 5, avl_or_br)
-    run_program("glove.6b.50d.txt", "words_to_use.txt", 5, not avl_or_br)
-    run_program("text_file_1.txt", "words_to_use_2.txt", 1, avl_or_br)
-    run_program("text_file_1.txt", "words_to_use_2.txt", 1, not avl_or_br)

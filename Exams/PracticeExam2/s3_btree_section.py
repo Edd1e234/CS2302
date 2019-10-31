@@ -1,3 +1,6 @@
+import math
+
+
 class BTreeNode:
     # Constructor
     def __init__(self, keys=[], children=[], is_leaf=True, max_num_keys=5):
@@ -24,7 +27,13 @@ class BTree:
     # Problem 11
     # --------------------------------------------------------------------------------------------------------------
     def _height(self, node):
-        return 0
+        if self.root is None:
+            return -1
+        if node is None:
+            node = self.root
+        if node.is_leaf:
+            return 0
+        return self._height(node.children[0]) + 1
 
     def num_nodes_at_depth(self, d):
         return self._num_nodes_at_depth(d, self.root)
@@ -33,8 +42,14 @@ class BTree:
     # Problem 12
     # --------------------------------------------------------------------------------------------------------------
     def _num_nodes_at_depth(self, d, node):
-        return 0
-
+        if d == 0:
+            return 1
+        if node.is_leaf:
+            return 0
+        value = 0
+        for i in range(len(node.children)):
+            value += self._num_nodes_at_depth(d - 1, node.children[i])
+        return value
 
     def max_val_at_depth(self, d):
         return self._max_val_at_depth(d, self.root)
@@ -43,7 +58,13 @@ class BTree:
     # Problem 13
     # --------------------------------------------------------------------------------------------------------------
     def _max_val_at_depth(self, d, node):
-        return 0
+        if self.root is None:
+            return -math.inf
+        if d == 0:
+            return node.keys[-1]
+        if node.is_leaf:
+            return -math.inf
+        return self._max_val_at_depth(d - 1, node.children[-1])
 
     def search(self, k):
         return self._search(k, self.root)
@@ -52,5 +73,17 @@ class BTree:
     # Problem 14
     # --------------------------------------------------------------------------------------------------------------
     def _search(self, k, node):
-        return None
+        if self.root is None:
+            return None
 
+        if k in node.keys:
+            return node
+
+        if node.is_leaf:
+            return None
+
+        for i in range(len(node.children)):
+            if k < node.children[i]:
+                return self._search(k, node.childer[i])
+
+        return self._search(k, node.children[len(node.children)])

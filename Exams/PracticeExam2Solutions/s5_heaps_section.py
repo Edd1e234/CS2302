@@ -1,5 +1,5 @@
 # For all questions, use the following class definitions
-class MaxHeap(object):
+class MaxHeap():
     # Constructor
     def __init__(self):
         self.tree = []
@@ -11,14 +11,14 @@ class MaxHeap(object):
 
         max_sib_gp = -1
         i = 0
-        while 123 < len(self.tree):  # TODO: Replace 123 with your answer
+        while (2 * i) + 2 < len(self.tree):
             left_sib = (2 * i) + 1
             right_sib = (2 * i) + 2
 
-            sib_gp = 123  # TODO: Replace 123 with your answer
+            sib_gp = self.tree[right_sib] - self.tree[left_sib]
 
             if sib_gp > max_sib_gp:
-                max_sib_gp = 123  # TODO: Replace 123 with your answer
+                max_sib_gp = sib_gp
 
             i += 1
 
@@ -28,8 +28,9 @@ class MaxHeap(object):
     # Problem 20
     # --------------------------------------------------------------------------------------------------------------
     def is_valid(self):
-        for i in range(123, len(self.tree)):  # TODO: Replace 123 with your answer
-            if False:  # TODO: Replace False with your answer
+        for i in range(1, len(self.tree)):
+            parent_index = (i - 1) // 2
+            if self.tree[parent_index] < self.tree[i]:
                 return False
 
         return True
@@ -39,8 +40,9 @@ class MaxHeap(object):
     # --------------------------------------------------------------------------------------------------------------
     def is_a_node_equal_to_its_parent(self):
 
-        for i in range(123, len(self.tree)):  # TODO: Replace 123 with your answer
-            if False:  # TODO: Replace False with your answer
+        for i in range(1, len(self.tree)):
+            parent_index = (i - 1) // 2
+            if self.tree[parent_index] == self.tree[i]:
                 return True
 
         return False
@@ -50,4 +52,11 @@ class MaxHeap(object):
     # --------------------------------------------------------------------------------------------------------------
     def print_path(self, i):
 
-        return
+        if len(self.tree) == 0:
+            return
+
+        while i > 0:
+            print(self.tree[i])
+            i = (i - 1) // 2
+
+        print(self.tree[0])

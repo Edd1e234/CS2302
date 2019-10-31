@@ -1,3 +1,5 @@
+import math
+
 # For all questions, use the following class definitions
 class BinaryTreeNode:
 
@@ -18,7 +20,9 @@ class BinarySearchTree:
     # Problem 7
     # --------------------------------------------------------------------------------------------------------------
     def _height(self, node):
-        return 0
+        if node is None:
+            return -1
+        return max(self._height(node.left), self._height(node.right)) + 1
 
     def num_nodes_at_depth(self, d):
         return self._num_nodes_at_depth(d, self.root)
@@ -27,7 +31,13 @@ class BinarySearchTree:
     # Problem 8
     # --------------------------------------------------------------------------------------------------------------
     def _num_nodes_at_depth(self, d, node):
-        return 0
+        if node is None:
+            return 0
+
+        if d == 0:
+            return 1
+
+        return self._num_nodes_at_depth(d-1, node.left) + self._num_nodes_at_depth(d-1, node.right)
 
     def min_val(self):
         return self._min_val(self.root)
@@ -36,7 +46,13 @@ class BinarySearchTree:
     # Problem 9
     # --------------------------------------------------------------------------------------------------------------
     def _min_val(self, node):
-        return 0
+        if node is None:
+            return math.inf
+
+        if node.left is None:
+            return node.item
+
+        return self._min_val(node.left)
 
     def max_val_at_depth(self, d):
         return self._max_val_at_depth (d, self.root)
@@ -45,6 +61,12 @@ class BinarySearchTree:
     # Problem 10
     # --------------------------------------------------------------------------------------------------------------
     def _max_val_at_depth (self, d, node):
-        return 0
+        if node is None:
+            return -math.inf
+
+        if d == 0:
+            return node.item
+
+        return max(self._max_val_at_depth(d - 1, node.left), self._max_val_at_depth(d-1, node.right))
 
 

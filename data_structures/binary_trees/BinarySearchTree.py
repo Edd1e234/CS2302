@@ -1,3 +1,6 @@
+import math
+
+
 def printNode(node):
     if node is None:
         return
@@ -56,6 +59,37 @@ class BST(object):
 
     def __init__(self, root=None):
         self.root = root
+
+    def get_node(self, key):
+        cur_node = self.root
+
+        while cur_node is not None:
+            if cur_node.key == key:
+                return cur_node
+            if cur_node.key < key:
+                cur_node = cur_node.right
+            else:
+                cur_node = cur_node.left
+        print("Could not find node.")
+        return None
+
+    # Quiz question number 2
+    def find_nodes_depth(self, node):
+
+        cur_node = self.root
+        depth = 0
+
+        while cur_node is not None:
+            if cur_node.key == node.key:
+                return depth
+            depth += 1
+            if cur_node.key < node.key:
+                cur_node = cur_node.right
+            else:
+                cur_node = cur_node.left
+
+        print("Did not find node.")
+        return math.inf
 
     def get_height(self, node=None):
         if node is None:
@@ -158,4 +192,3 @@ class BST(object):
             node.left = self.remove_actual_node(node.left.key, node.left)
 
         return node
-

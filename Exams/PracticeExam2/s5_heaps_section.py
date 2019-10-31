@@ -1,33 +1,48 @@
-class HashTable:
-    # Builds a hash table of size 'size'
-    def __init__(self, size):
-        self.table = [[] for i in range(size)]
-
-    def hash(self, k):
-        return k % len(self.table)
+# For all questions, use the following class definitions
+class MaxHeap(object):
+    # Constructor
+    def __init__(self):
+        self.tree = []
 
     # --------------------------------------------------------------------------------------------------------------
-    # Problem 15
+    # Problem 19
     # --------------------------------------------------------------------------------------------------------------
-    def insert(self, k):
-        return
+    def get_max_sibling_gap(self):
+
+        max_sib_gp = -1
+        index = 1
+        for i in range(1, len(self.tree)):
+            
+
+
+
+
+        return max_sib_gp
 
     # --------------------------------------------------------------------------------------------------------------
-    # Problem 16
+    # Problem 20
     # --------------------------------------------------------------------------------------------------------------
-    def contains(self, k):
+    def is_valid(self):
+        for i in range(123, len(self.tree)):  # TODO: Replace 123 with your answer
+            if False:  # TODO: Replace False with your answer
+                return False
+
+        return True
+
+    # --------------------------------------------------------------------------------------------------------------
+    # Problem 21
+    # --------------------------------------------------------------------------------------------------------------
+    def is_a_node_equal_to_its_parent(self):
+
+        for i in range(123, len(self.tree)):  # TODO: Replace 123 with your answer
+            if False:  # TODO: Replace False with your answer
+                return True
+
         return False
 
     # --------------------------------------------------------------------------------------------------------------
-    # Problem 17
+    # Problem 22
     # --------------------------------------------------------------------------------------------------------------
-    def get_longest_list(self):
-
-        return 0
-
-    # --------------------------------------------------------------------------------------------------------------
-    # Problem 18
-    # --------------------------------------------------------------------------------------------------------------
-    def reset_table(self):
+    def print_path(self, i):
 
         return
