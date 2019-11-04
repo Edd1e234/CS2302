@@ -290,16 +290,9 @@ def main():
     keys_at_50 = run_program("/Users/greywind/"
                              "Desktop/CS3/CS2302/Lab3/"
                              "glove.6B.50d.txt", "words_to_use.txt", 2, 50)
-    keys_at_100 = run_program("/Users/greywind/"
-                             "Desktop/CS3/CS2302/Lab3/"
-                             "glove.6B.50d.txt", "words_to_use.txt", 2, 100)
-    keys_at_500 = run_program("/Users/greywind/"
-                              "Desktop/CS3/CS2302/Lab3/"
-                              "glove.6B.50d.txt", "words_to_use.txt", 2, 500)
     prints_results(keys_at_5)
     prints_results(keys_at_50)
-    prints_results(keys_at_100)
-    prints_results(keys_at_500)
+
     print("WORKS!")
 
 
