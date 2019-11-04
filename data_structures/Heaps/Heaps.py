@@ -87,3 +87,25 @@ class MaxHeap(object):
         ax.text(x, y, str(self.tree[i]), size=20,
                 ha="center", va="center",
                 bbox=dict(facecolor='w', boxstyle="circle"))
+
+    def second_max(self):
+        # This function assumes there is at least two elements in 'self.tree'.
+        if self.tree[1] < self.tree[2]:
+            return self.tree[2]
+        else:
+            return self.tree[1]
+
+    def is_valid(self):
+        for i in range(1, len(self.tree)):
+            if self.tree[(i - 1) // 2] < self.tree[i] and \
+                    self.tree[(i - 1) // 2] != self.tree[i]:
+                return False
+        return True
+
+    def try_replace(self, i, val):
+        old_value = self.tree[i]
+        self.tree[i] = val
+        if self.is_valid():
+            return
+        else:
+            self.tree[i] = old_value
