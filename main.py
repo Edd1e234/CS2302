@@ -1,24 +1,17 @@
 # This main will be use as workspace for quick tests and for review.
-
-from data_structures.Heaps.Heaps import MaxHeap
-
-
-def form_max_heap(arr):
-    for i in range(1, len(arr)):
-        if arr[i - 1] >= arr[i]:
-            continue
-        else:
-            return i - 1
-    return len(arr) - 1
+from data_structures.hash_table.lru_cache import LRUCache
 
 
 def main():
-    heap = MaxHeap()
-    heap.insert(4)
-    heap.insert(5)
-    heap.insert(2)
+    cache = LRUCache(3)
+    cache.put(4, 6)
+    cache.put(7, 9)
+    cache.put(8, 0)
+    cache.put(12, 4)
 
-    print(heap.second_max())
+    cache.print_most_recent()
+
+    print(cache.get(12))
 
     print("Works")
 

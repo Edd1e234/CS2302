@@ -109,20 +109,3 @@ class HashTable:
                 return False
         return True
 
-
-def main():
-    # Problem 1
-    hash_table_1 = HashTable(7)
-    list_values_1 = [12, 3, 21, 14, 11, 8, 9, 7, 6, 1, 22, 19]
-
-    for i in list_values_1:
-        hash_table_1.insert(i)
-    print("Inserted...")
-    print(hash_table_1.__str__())
-    print(hash_table_1.load_factor())
-    print(hash_table_1.size_longest_list())
-
-    print("Hello world")
-
-
-main()

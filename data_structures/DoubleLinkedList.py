@@ -10,13 +10,13 @@ class Node:
 
     def remove(self):
         prev = self.prev
-        next = self.next
+        next_node = self.next
 
         if prev is not None:
-            prev.next = next
-        if next is not None:
-            next.prev = prev
-        return next, prev
+            prev.next_node = next
+        if next_node is not None:
+            next_node.prev = prev
+        return next_node, prev
 
     def add_at(self, data):
         prev = self.prev
