@@ -5,28 +5,18 @@ class Node:
 
     def __init__(self, data=None, next=None, prev=None):
         self.data = data
-        self.next = next
+        self.next_node = next
         self.prev = prev
 
     def remove(self):
-        prev = self.prev
-        next_node = self.next
+        print("Removing this, ", self.data)
 
-        if prev is not None:
-            prev.next_node = next
-        if next_node is not None:
-            next_node.prev = prev
-        return next_node, prev
+        if self.prev is not None:
+            self.prev.next_node = self.next_node
+        if self.next_node is not None:
+            self.next_node.prev = self.prev
 
-    def add_at(self, data):
-        prev = self.prev
-
-        if prev is None:
-            self.prev = Node(data, self, self.prev)
-            return
-
-        prev.next = Node(data, self, prev)
-        self.prev = prev.next
+        return self.next_node, self.prev
 
 
 class DoublyLinkedList:
@@ -40,8 +30,17 @@ class DoublyLinkedList:
             self.size = 1
 
     def append_at_tail(self, data):
-        self.tail.next = Node(data, None, self.tail)
+        self.tail.next_node = Node(data, None, self.tail)
         self.tail = self.tail.next
+        self.size += 1
+
+    def append_node_at_head(self, node):
+        if self.head is None:
+            self.head = node
+            return
+        self.head.prev = node
+        self.head.prev.next = self.head
+        self.head = self.head.prev
         self.size += 1
 
     def append_at_head(self, data):
@@ -66,7 +65,7 @@ class DoublyLinkedList:
                 new_node.add_at(data)
                 self.size += 1
                 return
-            new_node = new_node.next
+            new_node = new_node.next_node
             counter += 1
         self.append_at_tail(data)
 
@@ -97,7 +96,4 @@ class DoublyLinkedList:
         cur_node = self.head
         for i in range(self.size):
             print(cur_node.data)
-            cur_node = cur_node.next
-
-
-
+            cur_node = cur_node.next_node

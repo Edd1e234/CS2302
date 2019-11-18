@@ -19,6 +19,9 @@ class LRUCache(HashTable):
         print("This operation is not supported, NOTHING DONE.")
         return
 
+    def insert(self, k):
+        return self.remove(k)
+
     def _get_bucket(self, key):
         return self.table[self.hash(key)]
 
@@ -43,13 +46,13 @@ class LRUCache(HashTable):
         # Checking if it contains the value and key.
         for node in nodes:
             if node.data[0] == key and node.data[1] == value:
-                return True, node
-        return False,
+                print("Found the values.", key, value)
+                node.remove()
+                self.nodes.size += -1
+                return
 
     def put(self, key, value):
-        result = self.contains_pair(key, value)
-        if result[0]:
-            result[1].remove()
+        self.contains_pair(key, value)
         bucket = self._get_bucket(key)
 
         # Creates new node and inserts it to the 'bucket'.
@@ -59,13 +62,13 @@ class LRUCache(HashTable):
 
         if self.nodes.size == self.set_size:
             self.nodes.remove_tail()
-        self.nodes.append_at_head(new_node)
+        self.nodes.append_node_at_head(new_node)
 
     def print_most_recent(self):
 
         cur = self.nodes.head
         for i in range(self.nodes.size):
-            print(cur.data.data)
+            print(cur.data)
             cur = cur.next
 
     def size(self):

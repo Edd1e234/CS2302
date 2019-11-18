@@ -14,6 +14,7 @@ class MaxHeap(object):
     def is_empty(self):
         return len(self.tree) == 0
 
+
     def parent(self, i):
         if i == 0:
             return -math.inf
@@ -32,6 +33,7 @@ class MaxHeap(object):
         return self.tree[c]
 
     def insert(self, item):
+
         self.tree.append(item)
         self._percolate_up(len(self.tree) - 1)
 
@@ -52,7 +54,6 @@ class MaxHeap(object):
             return self.tree.pop()
 
         root = self.tree[0]
-        self.tree[0] = self.tree.pop()
 
         self._percolate_down(0)
 
