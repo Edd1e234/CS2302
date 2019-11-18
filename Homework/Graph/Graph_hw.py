@@ -53,13 +53,15 @@ Edge List:
 (weight = 1, vertices = 5, 2)
 
 """
+import math
 
 from scipy.interpolate import interp1d
 
 
-class Edge(object):
-
-    pass
+class Edge:
+    def __init__(self, dest, weight=1):
+        self.dest = dest
+        self.weight = weight
 
 
 class GraphAM:
@@ -114,7 +116,7 @@ class GraphAM:
 
     # Number 2.
     def get_highest_cost_edge(self):
-        max_edge = 0
+        max_edge = -math.inf
 
         for i in range(len(self.am)):
             for j in range(len(self.am[i])):
@@ -123,6 +125,7 @@ class GraphAM:
                         max_edge = self.am[i][j]
         return max_edge
 
+    # This graph represents Adjacency list.
     class GraphAL:
         # Constructor
         def __init__(self, vertices, weighted=False, directed=False):
@@ -179,4 +182,31 @@ class GraphAM:
                     print('(' + str(edge.dest) + ',' + str(edge.weight) + ')', end='')
                 print(']', end=' ')
             print(']')
+
+        # Number 2.
+        def get_highest_cost_edge(self):
+            max_edge = -math.inf
+
+            # Finds the largest weight.
+            for edge in self.al:
+                if edge.weight > max_edge:
+                    max_edge = edge.weight
+
+            return max_edge
+
+        # Number 3.
+        def num_edges(self):
+            num_edges = 0
+            if self.directed:
+                for ver in self.al:
+                    num_edges += len(ver)
+            else:
+                dest_found = []
+                for ver in self.al:
+                    for edge in ver:
+                        if edge.dest not in dest_found:
+                            num_edges += 1
+                            dest_found.append(edge.dest)
+            return num_edges
+
 
