@@ -1,4 +1,11 @@
 """
+# Created by Eddie Garcia at 11.18.19
+
+# Graph Homework for 
+# Enter feature description here
+
+Scenario: # Enter scenario name here
+# Enter steps here
 Homework for graphs.
 
 1.
@@ -56,6 +63,23 @@ Edge List:
 import math
 
 from scipy.interpolate import interp1d
+
+
+# Number 7. Will only work for 'GraphAm' classes.
+def is_identical(graph1, graph2):
+    if len(graph1) != len(graph2):
+        return
+    if len(graph1[0]) != len(graph2[0]):
+        return
+
+    for i in range(len(graph1)):
+        for j in range(len(graph1)):
+            try:
+                if graph1[i][j] != graph2[i][j]:
+                    print("NOT identical")
+                    return
+            except IndexError as e:
+                print(e)
 
 
 class Edge:
@@ -125,7 +149,7 @@ class GraphAM:
                         max_edge = self.am[i][j]
         return max_edge
 
-    # Number 3. 
+    # Number 3.
     def num_edges(self):
         num_edges = 0
         if self.directed:
@@ -141,7 +165,8 @@ class GraphAM:
                         dest_found.append([i, j])
             num_edges = len(dest_found) // 2
         return num_edges
-    # Number 5
+
+    # Number 5.
     def edge_weight(self, src, dest):
         if src >= len(self.am):
             return
@@ -149,7 +174,13 @@ class GraphAM:
             return
         return self.am[src][dest]
 
-
+    # Number 6.
+    def reverse_edge(self):
+        graph = GraphAM(self.num_vertices(),
+                        self.weighted, self.directed)
+        for i in range(len(self.am)):
+            for j in range(len(self.am[i])):
+                graph[j][i] = self.am[i][j]
 
 
 def check_pair(pairs_list, dest_1, dest_2):
@@ -248,4 +279,10 @@ class GraphAL:
             num_edges = len(dest_found) // 2
         return num_edges
 
-
+    # Number 6
+    def reverse_edge(self):
+        graph = GraphAL(self.num_vertices(),
+                        self.weighted, self.directed)
+        for i in range(len(self.al)):
+            for edge in self.al[i]:
+                graph.insert_edge(edge.dest, i, edge.weight)
