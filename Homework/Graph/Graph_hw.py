@@ -125,88 +125,127 @@ class GraphAM:
                         max_edge = self.am[i][j]
         return max_edge
 
-    # This graph represents Adjacency list.
-    class GraphAL:
-        # Constructor
-        def __init__(self, vertices, weighted=False, directed=False):
-            self.al = [[] for i in range(vertices)]
-            self.weighted = weighted
-            self.directed = directed
-            self.representation = 'AL'
+    # Number 3. 
+    def num_edges(self):
+        num_edges = 0
+        if self.directed:
+            for i in self.am:
+                for j in i:
+                    if j != 0:
+                        num_edges += 1
+        else:
+            dest_found = []
+            for i in range(len(self.am)):
+                for j in range(len(self.am[i])):
+                    if check_pair(dest_found, i, j):
+                        dest_found.append([i, j])
+            num_edges = len(dest_found) // 2
+        return num_edges
+    # Number 5
+    def edge_weight(self, src, dest):
+        if src >= len(self.am):
+            return
+        if dest >= len(self.am[src]):
+            return
+        return self.am[src][dest]
 
-        def is_valid_vertex(self, u):
-            return 0 <= u < len(self.al)
 
-        def insert_vertex(self):
-            self.al.append([])
 
-            return len(self.al) - 1  # Return id of new vertex
 
-        def insert_edge(self, source, dest, weight=1):
-            if not self.is_valid_vertex(source) or not self.is_valid_vertex(dest):
-                print('Error, vertex number out of range')
-            elif weight != 1 and not self.weighted:
-                print('Error, inserting weighted edge to unweighted graph')
-            else:
-                self.al[source].append(Edge(dest, weight))
-                if not self.directed:
-                    self.al[dest].append(Edge(source, weight))
+def check_pair(pairs_list, dest_1, dest_2):
+    for pair in pairs_list:
+        if dest_1 in pair and dest_2 in pair:
+            return True
+    return False
 
-        def delete_edge(self, source, dest):
-            if source >= len(self.al) or dest >= len(self.al) or source < 0 or dest < 0:
-                print('Error, vertex number out of range')
-            else:
-                deleted = self._delete_edge(source, dest)
-                if not self.directed:
-                    deleted = self._delete_edge(dest, source)
-                if not deleted:
-                    print('Error, edge to delete not found')
 
-        def _delete_edge(self, source, dest):
-            i = 0
-            for edge in self.al[source]:
-                if edge.dest == dest:
-                    self.al[source].pop(i)
-                    return True
-                i += 1
-            return False
+class GraphAL:
+    """
+    This is the List.
+    """
 
-        def num_vertices(self):
-            return len(self.al)
+    # Constructor
+    def __init__(self, vertices, weighted=False, directed=False):
+        self.al = [[] for i in range(vertices)]
+        self.weighted = weighted
+        self.directed = directed
+        self.representation = 'AL'
 
-        def display(self):
+    def is_valid_vertex(self, u):
+        return 0 <= u < len(self.al)
+
+    def insert_vertex(self):
+        self.al.append([])
+
+        return len(self.al) - 1  # Return id of new vertex
+
+    def insert_edge(self, source, dest, weight=1):
+        if not self.is_valid_vertex(source) or not self.is_valid_vertex(dest):
+            print('Error, vertex number out of range')
+        elif weight != 1 and not self.weighted:
+            print('Error, inserting weighted edge to unweighted graph')
+        else:
+            self.al[source].append(Edge(dest, weight))
+            if not self.directed:
+                self.al[dest].append(Edge(source, weight))
+
+    def delete_edge(self, source, dest):
+        if source >= len(self.al) or dest >= len(self.al) or source < 0 or dest < 0:
+            print('Error, vertex number out of range')
+        else:
+            deleted = self._delete_edge(source, dest)
+            if not self.directed:
+                deleted = self._delete_edge(dest, source)
+            if not deleted:
+                print('Error, edge to delete not found')
+
+    def _delete_edge(self, source, dest):
+        i = 0
+        for edge in self.al[source]:
+            if edge.dest == dest:
+                self.al[source].pop(i)
+                return True
+            i += 1
+        return False
+
+    def num_vertices(self):
+        return len(self.al)
+
+    def display(self):
+        print('[', end='')
+        for i in range(len(self.al)):
             print('[', end='')
+            for edge in self.al[i]:
+                print('(' + str(edge.dest) + ',' + str(edge.weight) + ')', end='')
+            print(']', end=' ')
+        print(']')
+
+    # Number 2.
+    def get_highest_cost_edge(self):
+        max_edge = -math.inf
+
+        # Finds the largest weight.
+        for edge in self.al:
+            if edge.weight > max_edge:
+                max_edge = edge.weight
+
+        return max_edge
+
+    # Number 3. Comeback to this.
+    def num_edges(self):
+        num_edges = 0
+        if self.directed:
+            for ver in self.al:
+                num_edges += len(ver)
+        else:
+            dest_found = []
             for i in range(len(self.al)):
-                print('[', end='')
-                for edge in self.al[i]:
-                    print('(' + str(edge.dest) + ',' + str(edge.weight) + ')', end='')
-                print(']', end=' ')
-            print(']')
-
-        # Number 2.
-        def get_highest_cost_edge(self):
-            max_edge = -math.inf
-
-            # Finds the largest weight.
-            for edge in self.al:
-                if edge.weight > max_edge:
-                    max_edge = edge.weight
-
-            return max_edge
-
-        # Number 3.
-        def num_edges(self):
-            num_edges = 0
-            if self.directed:
-                for ver in self.al:
-                    num_edges += len(ver)
-            else:
-                dest_found = []
-                for ver in self.al:
-                    for edge in ver:
-                        if edge.dest not in dest_found:
-                            num_edges += 1
-                            dest_found.append(edge.dest)
-            return num_edges
+                for edges in self.al[i]:
+                    if not check_pair(dest_found, i, edges.dest):
+                        # TODO(Edd1e234): Ask if two nodes can have multiple
+                        #  undirected edges.
+                        dest_found.append([i, edges.dest])
+            num_edges = len(dest_found) // 2
+        return num_edges
 
 

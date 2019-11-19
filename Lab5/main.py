@@ -106,10 +106,8 @@ class WordHeap(MaxHeap):
         # TODO(Edd1e234): Find the bug so that these if blocks are not necessary.
         # These two if blocks are here for a small bug that has yet to be found.
         if left_child_index == -math.inf:
-            print("the left is inf")
             return
         if right_child_index == -math.inf:
-            print("the right is inf")
             return
         if self.tree[i].key > max(self.tree[left_child_index].key, self.tree[right_child_index].key):
             return
@@ -138,15 +136,27 @@ class WordHeap(MaxHeap):
                 return False
         return True
 
+    def print_k(self, k):
+        if not isinstance(k, int):
+            return
 
-def problem_2(words):
+        for i in range(k):
+            item = self.extract_max()
+            if item is not None:
+                print(item.object_data, item.key)
+            else:
+                return
+
+
+def problem_2(words, k):
     word_heap = WordHeap()
 
     for i in words:
         item = DataWrapper(1, i)
         word_heap.insert(item)
 
-    problem_2_print(word_heap)
+    word_heap.print_k(k)
+
 
 
 def problem_2_print(word_heap):
@@ -168,9 +178,8 @@ def problem_1():
 
 
 def main():
-    problem_1()
     words = ["Eddie", "Billy", "Jimmy", "Eddie", "Eddie", "Billy", "Hey", "Tim"]
-    problem_2(words)
+    problem_2(words, 3)
 
     print("Works")
 
