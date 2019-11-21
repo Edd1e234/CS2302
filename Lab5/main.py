@@ -1,4 +1,5 @@
 import math
+import time
 
 from data_structures.hash_table.lru_cache import LRUCache
 from data_structures.Heaps.Heaps import MaxHeap
@@ -62,13 +63,6 @@ class WordHeap(MaxHeap):
         self.tree[0] = self.tree.pop()
         self._percolate_down(0)
         return root
-
-    def _percolate_down_helper(self, i, index):
-        if self.tree[i].key == self.tree[index].key:
-            if self.tree[i].object_data < self.tree[index].object_data:
-                self.tree[i], self.tree[index] = self.tree[index], self.tree[i]
-                self._percolate_down(index)
-                return
 
     def _percolate_down(self, i):
         left_child_index = self.left_child(i)
@@ -158,7 +152,6 @@ def problem_2(words, k):
     word_heap.print_k(k)
 
 
-
 def problem_2_print(word_heap):
     for i in range(len(word_heap.tree)):
         item = word_heap.extract_max()
@@ -177,11 +170,31 @@ def problem_1():
     lru_cache.nodes.print_list()
 
 
-def main():
+def run_problem_2(amount, k):
+    # This list is 8.
     words = ["Eddie", "Billy", "Jimmy", "Eddie", "Eddie", "Billy", "Hey", "Tim"]
-    problem_2(words, 3)
 
-    print("Works")
+    full_words = []
+    for i in range(amount):
+        for word in words:
+            full_words.append(word)
+
+    total_time_start = time.time()
+    problem_2(full_words, k)
+    total_time_end = time.time()
+
+    print("Time to complete", total_time_end - total_time_start)
+
+def main():
+    print("Tests...")
+
+    run_problem_2(40, 4)
+    run_problem_2(90, 4)
+    run_problem_2(900, 4)
+    run_problem_2(9000, 4)
+    run_problem_2(90000, 4)
+    run_problem_2(9000000, 4)
+    run_problem_2(90000000, 4)
 
 
 main()
