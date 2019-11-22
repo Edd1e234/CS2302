@@ -48,6 +48,7 @@ def find_sqrt(number):
             return i-1
 
 def main():
+    print("Hello world")
     print(three_sum([3,-2,1,0]))
 
 
