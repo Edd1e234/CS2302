@@ -37,6 +37,16 @@ def three_sum_helper(triplets, a1, a2, a3):
             return False
     return True
 
+
+def find_sqrt(number):
+    if number < 4:
+        return 1
+    for i in range(2, number//2):
+        if i**2 == number:
+            return i
+        elif i**2 > number:
+            return i-1
+
 def main():
     print(three_sum([3,-2,1,0]))
 

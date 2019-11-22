@@ -69,5 +69,6 @@ def run_problem_2(amount, k):
 def main():
     run_problem_2(9000, 4)
     run_problem_2(90000, 4)
+    problem_1()
 
 main()
