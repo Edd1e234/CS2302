@@ -1,7 +1,8 @@
 # Created by Eddie Garcia at 11/28/19
 
 # Topological Sort
-# Implementation for Topological Sort in terms of AL and AM graphs.
+# Implementation for Topological Sort in terms of AL and AM graphs. If
+# comment says otherwise all code was written by @Edd1e234
 
 from Python.data_structures.Graphs.graph_al import GraphAL
 from Python.data_structures.Graphs.graph_am import GraphAM
@@ -72,7 +73,7 @@ def get_adj_vertices(graph, src):
 
 
 def topological_sort(graph):
-    # This if else block will get the c
+    # This if else block will get the correct indegrees.
     if isinstance(graph, GraphAM):
         all_in_degrees = compute_indegree_every_vertex_am(graph)
     elif isinstance(graph, GraphAL):
@@ -80,6 +81,7 @@ def topological_sort(graph):
     else:
         return
 
+    # Code below is taken from Blackboard.
     sort_result = []
     q = Queue()
 
