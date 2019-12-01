@@ -142,7 +142,7 @@ def kruskals_algorithm(graph):
     if graph is None:
         return None
 
-    # Builds the corresponding graph. 
+    # Builds the corresponding graph.
     if isinstance(graph, GraphAL):
         edge_list = sort_list_al(graph)
         new_graph = GraphAL(graph.num_vertices(), weighted=True)
