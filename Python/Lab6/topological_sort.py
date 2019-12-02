@@ -92,6 +92,7 @@ def topological_sort(graph):
         u = q.put()
         sort_result.append(u)
 
+        # Gets all vertices connected to 'u'.
         for adj_vertex in get_adj_vertices(graph, u):
             all_in_degrees[adj_vertex] += -1
 

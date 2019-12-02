@@ -40,7 +40,7 @@ class DisjointSetForest:
     def create_dsf(n):
         dsf = [-1] * n
 
-        # Assuming the n will always at least 2.
+        # Assuming the n will always at least be 2.
         head = 0
         subset = 1
 
