@@ -85,7 +85,7 @@ def edit_distance(s1, s2):
         for y in range(1, len(words[x])):
             left_side, top, corner = get_left_top_corner(words, x, y)
             if s1[x - 1] == s2[y - 1]:
-                words[x][y] = min(left_side, top, corner)
+                words[x][y] = corner
             else:
                 words[x][y] = min(left_side, top, corner) + 1
 

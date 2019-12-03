@@ -53,11 +53,11 @@ class TestEditDistance(TestLab7):
     def test_edit_distance_s(self):
         expected_list = [
             [0, 1, 2, 3, 4, 5],
-            [1, 0, 1, 2, 3, 3],
-            [2, 1, 0, 0, 1, 2],
-            [3, 2, 0, 0, 1, 2],
-            [4, 3, 1, 1, 0, 1],
-            [5, 3, 2, 2, 1, 0]
+            [1, 0, 1, 2, 3, 4],
+            [2, 1, 0, 1, 2, 3],
+            [3, 2, 1, 0, 1, 2],
+            [4, 3, 2, 1, 0, 1],
+            [5, 4, 3, 2, 1, 0]
         ]
         expected_distance = 0
         values = edit_distance(self.s1, self.s2)
